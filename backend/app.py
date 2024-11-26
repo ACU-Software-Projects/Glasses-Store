@@ -138,6 +138,28 @@ def get_product(product_id):
     productInfo = ""
     return jsonify(productInfo), 200
 
+app.route('/product/<int:product_id>', methods=['DELETE'])
+def delete_product(product_id):
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "Invalid input. No data provided."}), 400
+        required_fields = ['api_key', 'product_id']
+
+        missing_fields = [field for field in required_fields if field not in data]
+        if missing_fields:
+            return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
+        api_key = data['api_key']
+        if api_key not in logged_in_session:
+            return jsonify({"error": f"API key {api_key} not found."}), 401
+
+        if logged_in_session[api_key]['account_type'] != 'ADMIN':
+            return jsonify({"error": f"API key {api_key} not Admin."}), 401
+
+        #TODO send request to database to delete product using product_id and check if product exisit
+
+    except Exception as e:
+        return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
 if __name__ == '__main__':
     app.run()
