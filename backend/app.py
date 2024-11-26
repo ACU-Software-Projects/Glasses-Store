@@ -161,5 +161,39 @@ def delete_product(product_id):
     except Exception as e:
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
+@app.route('payment/',methods=['POST'])
+def deposit():
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "Invalid input. No data provided."}), 400
+        required_fields = ['api_key', 'amount']
+
+        api_key= data['api_key']
+        amount = data['amount']
+
+        #TODO make deposit in database
+        return jsonify({"message": "Deposit successful!"}), 201
+    except Exception as e:
+        return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
+
+@app.route('/payment/withdraw',methods=['POST'])
+def withdraw():
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "Invalid input. No data provided."}), 400
+        required_fields = ['api_key', 'amount']
+
+        api_key = data['api_key']
+        amount = data['amount']
+
+        # TODO make withdraw in database
+
+        return jsonify({"message": "withdraw successful!"}), 201
+    except Exception as e:
+        return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
+
+
 if __name__ == '__main__':
     app.run()
