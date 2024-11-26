@@ -1,25 +1,27 @@
+import account
 
 
-class Admin:
-    def __init__(self, role):
+class Admin(account.Account):
+    def __init__(self, role, accountId, name, email, password, balance):
+        super().__init__(accountId, name, email, password, balance)
         self.role = role
 
-    def addProduct(self, product):
+    def add_product(self, product):
         # Placeholder for adding product functionality
         pass
 
-    def updateProduct(self, productId, details):
+    def update_product(self, productId, details):
         # Placeholder for updating product functionality
         pass
 
-    def removeProduct(self, productId):
+    def remove_product(self, productId):
         # Placeholder for removing product functionality
         pass
 
-    def viewAllInvoices(self):
+    def view_all_invoices(self):
         # This function should return a list of all invoices. For simplicity, we'll return an empty list.
         return []
 
-    def manageUserAccounts(self, userId, action):
+    def manage_user_accounts(self, userId, action):
         # Placeholder for managing user accounts functionality
         pass

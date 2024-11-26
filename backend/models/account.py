@@ -1,7 +1,5 @@
-import Users as user
-class Account(user):
+class Account:
     def __init__(self, accountId, name, email, password, balance):
-        super().__init__(email)
         self.accountId = accountId
         self.name = name
         self.email = email
