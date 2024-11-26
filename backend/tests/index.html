@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD with API</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        pre { background-color: #f4f4f4; padding: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>CRUD Operations with API</h1>
+    
+    <!-- Input form for username, email, and password -->
+    <label for="username">Username:</label>
+    <input type="text" id="username" placeholder="Enter username"><br><br>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" placeholder="Enter email"><br><br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" placeholder="Enter password"><br><br>
+
+    <!-- CRUD operation buttons -->
+    <button onclick="hellow()">GET (Read)</button>
+    <button onclick="createItem()">POST (Create)</button>
+    <button onclick="updateItem()">PUT (Update)</button>
+    <button onclick="deleteItem()">DELETE</button>
+    
+    <h2>Response</h2>
+    <pre id="response">Click a button to see the result here...</pre>
+    
+    <script src="script.js"></script>
+</body>
+</html>
