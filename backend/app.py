@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify
 import string, random
+import flask_cors
+from jinja2.utils import missing
 
 logged_in_session = {}
 
@@ -11,11 +13,12 @@ def generate_api_key():
 
 
 app = Flask(__name__)
+flask_cors.CORS(app)
 
 
 @app.route('/')
 def hello_world():  # put application's code here
-    return 'Hello World!'
+    return jsonify('Hello World! iguvhihihihiononhoi'), 201
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -66,7 +69,7 @@ def register():
         username = data['username']
         account_type = data['account_type']
         password = data['password']
-
+        print(email, username, account_type, password)
         # TODO call database to add new account
         # TODO check if there user with same username or email
 
@@ -98,7 +101,7 @@ def logout():
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
 
-@app.route('/product/add', methods=['GET', 'POST'])
+@app.route('/admin/product/add', methods=['GET', 'POST'])
 def add_product():
     try:
         data = request.get_json()
@@ -169,7 +172,7 @@ def delete_product(product_id):
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
 
-@app.route('payment/', methods=['POST'])
+@app.route('/payment/deposit', methods=['POST'])
 def deposit():
     try:
         data = request.get_json()
@@ -206,7 +209,7 @@ def withdraw():
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
 
-@app.route('cart/add_product', methods=['POST'])
+@app.route('/user/cart/add_product', methods=['POST'])
 def add_cart():
     try:
         data = request.get_json()
@@ -217,12 +220,13 @@ def add_cart():
         if missing_fields:
             return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
         # TODO add product to cart database
+
     except Exception as e:
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
 
 # TODO make function that create Invoice
-@app.route('/cart/checkout', methods=['POST'])
+@app.route('/user/cart/checkout', methods=['POST'])
 def checkout():
     try:
         data = request.get_json()
@@ -244,5 +248,80 @@ def checkout():
     except Exception as e:
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
-    if __name__ == '__main__':
-        app.run()
+
+@app.route('/admin/invoice', methods=['GET', 'POST'])
+def get_invoice():
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "Invalid input. No data provided."}), 400
+        required_fields = ['api_key']
+        missing_fields = [field for field in required_fields if field not in data]
+        if missing_fields:
+            return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
+        api_key = data['api_key']
+        if logged_in_session[api_key]['account_type'] != 'ADMIN':
+            return jsonify({"error": f"API key {api_key} not Admin."}), 401
+
+        # TODO get all invoices from database
+
+    except Exception as e:
+        return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
+
+
+@app.route('/admin/invoice/<int:invoice_id>', methods=['GET'])
+def get_invoice(invoice_id):
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "Invalid input. No data provided."}), 400
+        required_fields = ['api_key']
+        missing_fields = [field for field in required_fields if field not in data]
+        if missing_fields:
+            return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
+        api_key = data['api_key']
+        if logged_in_session[api_key]['account_type'] != 'ADMIN':
+            return jsonify({"error": f"API key {api_key} not Admin."}), 401
+        # TODO get invoice from database
+    except Exception as e:
+        return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
+
+
+@app.route('/user/invoice/<int:invoice_id>', methods=['DELETE'])
+def delete_invoice(invoice_id):
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "Invalid input. No data provided."}), 400
+        required_fields = ['api_key']
+        missing_fields = [field for field in required_fields if field not in data]
+        if missing_fields:
+            return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
+        api_key = data['api_key']
+        if logged_in_session[api_key]['account_type'] != 'USER':
+            return jsonify({"error": f"API key {api_key} not user."}), 401
+        # TODO get invoice from database
+    except Exception as e:
+        return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
+
+
+@app.route('/user/invoice/', methods=['GET'])
+def get_user_invoice():
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "Invalid input. No data provided."}), 400
+        required_fields = ['api_key']
+        missing_fields = [field for field in required_fields if field not in data]
+        if missing_fields:
+            return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
+        api_key = data['api_key']
+        if logged_in_session[api_key]['account_type'] != 'USER':
+            return jsonify({"error": f"API key {api_key} not user."}), 401
+        # TODO get all user invoice from database
+    except Exception as e:
+        return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', debug=True)
