@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import string, random
 import flask_cors
 from jinja2.utils import missing
+import mysql.connector
 
 logged_in_session = {}
 
@@ -321,6 +322,7 @@ def get_user_invoice():
         # TODO get all user invoice from database
     except Exception as e:
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
+
 
 
 if __name__ == '__main__':
