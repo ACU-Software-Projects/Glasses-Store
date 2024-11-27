@@ -250,7 +250,7 @@ def checkout():
 
 
 @app.route('/admin/invoice', methods=['GET', 'POST'])
-def get_invoice():
+def get_all_invoice():
     try:
         data = request.get_json()
         if not data:
