@@ -1,0 +1,504 @@
+*{
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+.nav
+{
+    position: fixed;
+    height: 50px;
+    width: 100%;
+background-color:rgba(91, 114, 240, 0.534);
+z-index: 10;
+opacity: 0.8;
+}
+.nav img
+{
+    height: 40px;
+
+    width: 100px;
+  border-radius: 10px;
+margin-top: 5px;
+margin-left: 5px;
+} 
+.chidren a
+{
+    float: right;  
+    text-decoration: none;
+    margin-right: 15px;
+    color: rgb(235, 237, 246);
+    font-weight: bold;
+}
+.chidren
+{
+    margin-top: -35px;
+    margin-right: 150px;
+}
+.sec-1
+{
+    width: 100%;
+    height: 100vh;
+    background-image:url(../img/image.png);
+    background-size: cover;
+    position: relative;
+}
+.overlay
+{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+ top: 0;
+ left: 0;
+    opacity: 0.5;
+}
+.content
+{
+   padding-top: 300px;
+   padding-left: 300px;
+   color: white;
+    position: absolute; 
+   font-size: larger;
+}
+.content h2
+{
+    padding-left: 100px;
+}
+.content h3
+{
+    padding-left: 140px;
+}
+.content .but-1
+{
+margin-left: 200px;    
+}
+button
+{
+    margin-left: 10px;
+    width: 200px;
+    height: 75px;
+    font-size: large;
+}
+.sec-2
+{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    text-align: center;
+    
+}
+.name
+{
+    padding-top: 60px;
+}
+
+.line
+{
+    height: 4px;
+   width: 50px;
+   margin:auto;
+background-color: blue;
+}
+i
+{
+    padding: 10px;
+   font-size:x-large;
+   color: rgb(66, 66, 228);
+}
+.sale
+{
+    float: left;
+    width: 300px;
+    height:200px;
+border-style:solid;
+margin-left: 50px;
+position: relative;
+}
+.parenent
+{
+    height:200px;
+width: 80%;
+margin: auto;
+margin-top: 170px;
+
+}
+.sale::after
+{
+    content: " ";
+    position:absolute;
+    width: 0px;
+    height: 0px;
+    top: 0;
+    left: 0;
+    background-color: black;
+    opacity: 0;
+}
+.sale:hover::after
+{
+width: 100%;
+height: 100%;
+opacity: 0.7;
+transition: 0.5s;
+}
+.sec-3
+{
+text-align: center;
+width: 100%;
+height: 100vh;
+background-color: #6f98eb;
+
+}
+.contener
+{
+    width: 80%;
+    height: 80%;
+    margin: auto;
+   
+}
+.img-item
+{
+    float: left;
+    position: relative;
+    padding: 10px;
+    margin-left: 10px;
+
+}
+.img-overlay
+{
+position: absolute;
+height: 100%;
+width: 100%;
+top: 0;
+left: 0;;
+background-color: rgba(0, 0, 0, 0.7); 
+text-align: center;
+padding-top: 70px;
+color: white;
+align-items: center;
+visibility: hidden;
+}
+.img-item:hover .img-overlay
+{
+    visibility: visible;
+}
+.sec-4
+{
+    text-align: center;
+    width: 100%;
+    height: 100vh;
+}
+.contenr-sec-4
+{
+    width: 80%;
+    height: 90%;
+    margin: auto;    
+}
+.type
+{
+    float: left;
+    width: 300px;
+    height:200px;
+border-style:solid;
+margin-left: 50px;
+margin-top: 20px;
+padding: 30px;
+position: relative;
+}
+.contenr-sec-4
+{
+margin-top: 50px;
+}
+.type::after
+{
+    content: " ";
+    position:absolute;
+    width: 0px;
+    height: 0px;
+    top: 0;
+    left: 0;
+    background-color: black;
+    opacity: 0;
+}
+.type:hover::after
+{
+width: 100%;
+height: 100%;
+opacity: 0.7;
+transition: 0.5s;
+}
+.choose
+{
+    float: left;
+    height: 300px;
+    width: 50%;
+}
+.sec-5
+{
+height: 100vh;
+padding: 100px;
+background-color: #3abef9;
+}
+li
+{
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    background-color: #a8a8a8;
+    margin: 10px 5px;
+    border-radius: 50%;
+}
+.active
+{
+    background-color: #6195ff;
+}
+.li-sec-5
+{
+    width: 100%;
+    height: 600px;
+}
+.li-sec-5
+{
+    margin-left: 900px;
+}
+.sec-6 {
+    position: relative;
+    height: 350px;
+    background-image: url(../img/WhatsApp\ Image\ 2024-09-12\ at\ 22.24.08_1e4684b2.jpg);
+    background-size: cover;
+    background-attachment: fixed; 
+    background-position: center; 
+ }
+.overlay-sec-6
+ {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    background-color: rgba(0, 0, 0, 0.7)
+ }
+.contener-sec-6
+{
+    height: 100%; 
+    width: 80%;
+    margin-left: 150px;
+    font-weight: bold;
+    font-size: 30px;
+    color: rgb(255, 255, 255);
+   
+}
+.li-sec-6
+{
+    margin: auto;
+    padding: 80px;
+    float: left;
+}
+.sec-7
+{
+    width: 100%;
+    margin: auto;
+    height: 100vh;
+    text-align: center;
+    padding: 100px;
+    background-color: #a7e6ff;
+}
+.price
+{
+    float: left;
+    width: 30%;
+    text-align: center;
+    padding: 30px 15px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(168, 168, 168);
+    margin-top: 50px;
+    position:relative ;
+}
+.contnt
+{
+    padding-top: 20px;
+}
+.price p
+{width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 1px solid;
+  padding: 10px;
+  margin: 10px 80px 10px 75px;
+  font-size: x-large;
+  text-align: center;
+}
+h3
+{
+    margin-top: 10px;
+    font-weight: 100;
+}
+.price::after
+{
+    content: " ";
+    position:absolute;
+    width: 100%;
+    height: 0px;
+    top: 0;
+    left: 0;
+    background-color: black;
+    opacity: 0;
+}
+.price:hover::after
+{
+width: 100%;
+height: 100%;
+opacity: 0.7;
+transition: 0.5s;
+}
+.sec-8 {   
+    position: relative;
+    height: 350px;
+    background-image: url(../img/WhatsApp\ Image\ 2024-09-11\ at\ 16.51.35_b40dc321.jpg );
+    background-size: cover;
+    background-attachment: fixed; 
+    background-position: center; 
+
+}
+.overlay-sec-8
+{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    background-color: rgba(0, 0, 0, 0.7)
+}
+.contener-sec-8
+{
+    height: 100%;
+    width: 80%;
+    margin: auto;
+    color: white;
+}
+.info
+ {
+    padding: 90px 20px 10px 150px;
+    position: relative;
+    line-height: 1.4;
+    margin-bottom: 20px;
+}
+.info-parent
+{
+    float: left;
+    width: 50%;
+    color: #fff;
+    padding-right: 90px;
+    padding-top: 55px;
+    margin-bottom: 110px;
+}
+.sec-9
+{
+    height: 100vh;
+    width: 100%;
+    text-align: center;
+    font-size: x-large;
+    margin-top: 40px;
+}
+.team-container {
+    width: 80%;
+    margin: auto;
+    margin-top: 100px;
+}
+
+.team-parent {
+    overflow: auto;
+   
+}
+
+.team-item {
+    float: left;
+    width: 30%;
+    background-color: rgb(177, 177, 177);
+    text-align: center;
+    padding: 18px 14px ;
+    position: relative;
+}
+.team-img {
+    width: 85%;
+    margin: auto;
+    position: relative;
+}
+
+.team-img   img {
+     width: 100%;
+}
+
+.team-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7) ;
+
+    visibility: hidden;
+}
+
+.team-item:hover   .team-overlay  {
+    visibility: visible;
+}
+
+.team-overlay  a {
+    display: block;
+    width: 40px;
+    height: 40px;
+    background-color: rgb(0, 183, 255);
+    color: #fff;
+    margin-left: auto ;
+}
+.team-overlay  a  i {
+    line-height: 40px;
+}
+.team-info-title {
+    color: #222;
+    padding: 11px  0px ;
+    text-transform: capitalize;
+}
+
+.team-info-p {
+   color: grey;
+   text-transform: uppercase;
+   font-size: 14px;
+}
+
+.team-item:hover  .team-info-title {
+   color: #fff;
+}
+.team-item:hover  .team-info-p  {
+    color: blue;
+}
+.team-item::after
+{
+    content: " ";
+    position:absolute;
+    width: 100%;
+    height: 0px;
+    top: 0;
+    left: 0;
+    background-color: black;  
+}
+.team-item:hover::after
+{
+width: 100%;
+height: 100%;
+opacity: 0.7;
+transition: 1s;
+}
+.footer
+{
+height: 60vh;
+background-color:rgba(0, 0, 0, 0.7);
+text-align: center;
+}
+.cont
+{
+padding: 100px;
+}
+
+
