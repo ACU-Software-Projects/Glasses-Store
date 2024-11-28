@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Account` (
   UNIQUE INDEX `UserId_UNIQUE` (`idAccount` ASC) VISIBLE)
 ENGINE = InnoDB;
 
-
+    
 -- -----------------------------------------------------
 -- Table `mydb`.`User`
 -- -----------------------------------------------------

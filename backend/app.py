@@ -7,9 +7,18 @@ import mysql.connector
 logged_in_session = {}
 
 
+def generate_key():
+    # Define the pool of characters: uppercase, lowercase, and digits
+    characters = string.ascii_letters + string.digits  # 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+    # Randomly select 10 characters from the pool
+    api_key = ''.join(random.choices(characters, k=10))
+    return api_key
+
+
 def generate_api_key():
-    while tmp := (''.join([random.choice(string.ascii_letters) for _ in range(8)])) in logged_in_session:
-        pass
+    tmp = generate_key()
+    while tmp in logged_in_session:
+        tmp = generate_key()
     return tmp
 
 
@@ -39,9 +48,9 @@ def login():
 
         email = data['email']
         password = data['password']
-
+        print(email, password)
         new_api_key = generate_api_key()
-
+        print(new_api_key)
         # TODO Other data from database
         logged_in_session[new_api_key] = {'email': email, 'password': password}
 
@@ -322,7 +331,6 @@ def get_user_invoice():
         # TODO get all user invoice from database
     except Exception as e:
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
-
 
 
 if __name__ == '__main__':
