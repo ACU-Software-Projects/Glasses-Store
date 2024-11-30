@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
 import string, random
 import flask_cors
-from jinja2.utils import missing
-import mysql.connector
+import DataAccess
+import models
+from backend.models.admin import Admin
+import backend.models
 
 logged_in_session = {}
 
@@ -49,12 +51,20 @@ def login():
         email = data['email']
         password = data['password']
         print(email, password)
-        new_api_key = generate_api_key()
-        print(new_api_key)
-        # TODO Other data from database
-        logged_in_session[new_api_key] = {'email': email, 'password': password}
+        res = DataAccess.login_user(email=email, password=password)
+        if res == None:
+            return jsonify({"error": f"Login failed: {res}"}), 401
 
-        return jsonify({"message": "User registered successfully!", "api_key": new_api_key}), 201
+        new_api_key = generate_api_key()
+        if res['AccountType'] == 'ADMIN':
+            logged_in_session[new_api_key] = Admin(res['Role'], res['idAccount'], res['Name'], res['Email'],
+                                                   res['Password'],
+                                                   res['Balance'])
+        else:
+            logged_in_session[new_api_key] = models.Users.User('', res['idAccount'], res['Name'], res['Email'],
+                                                               res['Password'], res['Balance'])
+
+        return jsonify({"message": "User logged in successfully!", "api_key": new_api_key}), 201
 
     except Exception as e:
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
@@ -79,12 +89,15 @@ def register():
         username = data['username']
         account_type = data['account_type']
         password = data['password']
+
         print(email, username, account_type, password)
-        # TODO call database to add new account
-        # TODO check if there user with same username or email
+        if DataAccess.add_user_or_admin(email=email, name=username, password=password,
+                                        account_type=account_type,
+                                        role=None if str(account_type).upper() == 'ADMIN' else "product manger"):
 
-        return jsonify({"message": "User registered successfully!"}), 201
-
+            return jsonify({"message": "User registered successfully!"}), 201
+        else:
+            return jsonify({"error": "User registration failed!"}), 401
     except Exception as e:
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
