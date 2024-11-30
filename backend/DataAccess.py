@@ -162,3 +162,76 @@ def fetch_invoice_by_id(invoice_id: int) -> dict:
     finally:
         cursor.close() 
         connection.close()  
+
+
+
+def get_product_data(product_id):
+    query = "SELECT * FROM product WHERE ProductID = %s"
+    values = (product_id,)
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute(query, values)
+        product = cursor.fetchone()
+        return product
+    except Exception as e:
+        print(e)
+    finally:
+        cursor.close()
+        conn.close()
+    return None
+
+
+
+def update_account_balance(account_id, new_balance):
+    query = "UPDATE account SET Balance = %s WHERE AccountID = %s"
+    values = (new_balance, account_id)
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(query, values)
+        conn.commit()
+    except Exception as e:
+        print(e)
+    finally:
+        cursor.close()
+        conn.close()
+
+
+
+
+def add_product_to_cart(cart_id, product_id, quantity):
+    query = """
+    INSERT INTO cart (CartID, ProductID, Quantity) 
+    VALUES (%s, %s, %s)
+    ON DUPLICATE KEY UPDATE 
+    Quantity = Quantity + VALUES(Quantity)
+    """
+    values = (cart_id, product_id, quantity)
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(query, values)
+        conn.commit()
+    except Exception as e:
+        print(e)
+    finally:
+        cursor.close()
+        conn.close()
+
+
+
+
+def delete_product_from_cart(cart_id, product_id):
+    query = "DELETE FROM cart WHERE CartID = %s AND ProductID = %s"
+    values = (cart_id, product_id)
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(query, values)
+        conn.commit()
+    except Exception as e:
+        print(e)
+    finally:
+        cursor.close()
+        conn.close()
