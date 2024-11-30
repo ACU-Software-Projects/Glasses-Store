@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import string, random
 import flask_cors
 from jinja2.utils import missing
+import mysql.connector
 
 logged_in_session = {}
 
@@ -324,89 +325,5 @@ def get_user_invoice():
 
 
 
-def get_db_connection():
-    return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="xx",
-        database="mydb"
-    )
-
-
-
-def add_user():
-    data = request.json
-    name = data['name']
-    email = data['email']
-    password = data['password']
-
-    query = "INSERT INTO User (name, email, password) VALUES (%s, %s, %s)"
-    values = (name, email, password)
-
-    try:
-        conn = get_db_connection()  # Function to connect to the database
-        cursor = conn.cursor()
-        cursor.execute(query, values)
-        conn.commit()
-        return jsonify({"message": "User added successfully!"}), 201
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-    finally:
-        cursor.close()
-        conn.close()
-
-
-
-def login_user():
-    data = request.json
-    email = data['email']
-    password = data['password']
-
-    query = "SELECT * FROM User WHERE email = %s AND password = %s"
-    values = (email, password)
-
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute(query, values)
-        user = cursor.fetchone()
-
-        if user:
-            return jsonify({"message": "Login successful!", "user": user}), 200
-        else:
-            return jsonify({"message": "Invalid credentials!"}), 401
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-    finally:
-        cursor.close()
-        conn.close()
-
-
-
-def search_glasses():
-    name = request.args.get('name', '')
-    min_price = request.args.get('min_price', 0)
-    max_price = request.args.get('max_price', 10000)
-
-    query = """
-    SELECT * FROM Glasses
-    WHERE name LIKE %s AND price BETWEEN %s AND %s
-    """
-    values = (f"%{name}%", min_price, max_price)
-
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute(query, values)
-        glasses = cursor.fetchall()
-
-        return jsonify({"glasses": glasses}), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-    finally:
-        cursor.close()
-        conn.close()
-
-        
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
