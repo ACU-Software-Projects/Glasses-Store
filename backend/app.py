@@ -3,8 +3,9 @@ import string, random
 import flask_cors
 import DataAccess
 import models
-from backend.models.admin import Admin
-import backend.models
+
+# from backend.models.admin import Admin
+# import backend.models.admin
 
 logged_in_session = {}
 
@@ -28,45 +29,44 @@ app = Flask(__name__)
 flask_cors.CORS(app)
 
 
+def validate_input(data, required_fields):
+    if not data:
+        return {"error": "Invalid input. No data provided.", "status": 400}
+    missing_fields = [field for field in required_fields if field not in data]
+    if missing_fields:
+        return {"error": f"Missing fields: {', '.join(missing_fields)}", "status": 400}
+    return None
+
+
 @app.route('/')
 def hello_world():  # put application's code here
     return jsonify('Hello World! iguvhihihihiononhoi'), 201
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['POST', 'GET'])
 def login():
     try:
-        # Parse JSON data from request
         data = request.get_json()
-
-        if not data:
-            return jsonify({"error": "Invalid input. No data provided."}), 400
-
-        # Validate required fields
-        required_fields = ['email', 'password']
-        missing_fields = [field for field in required_fields if field not in data]
-        if missing_fields:
-            return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
+        validation_error = validate_input(data, ['email', 'password'])
+        if validation_error:
+            return jsonify({"error": validation_error["error"]}), validation_error["status"]
 
         email = data['email']
         password = data['password']
-        print(email, password)
-        res = DataAccess.login_user(email=email, password=password)
-        if res == None:
-            return jsonify({"error": f"Login failed: {res}"}), 401
+        user = DataAccess.login_user(email=email, password=password)
+
+        if not user:
+            return jsonify({"error": "Invalid email or password."}), 401
+
 
         new_api_key = generate_api_key()
-        if res['AccountType'] == 'ADMIN':
-            logged_in_session[new_api_key] = Admin(res['Role'], res['idAccount'], res['Name'], res['Email'],
-                                                   res['Password'],
-                                                   res['Balance'])
-        else:
-            logged_in_session[new_api_key] = models.Users.User('', res['idAccount'], res['Name'], res['Email'],
-                                                               res['Password'], res['Balance'])
+        session_type = 'admin' if user['AccountType'] == 'ADMIN' else 'user'
+        logged_in_session[new_api_key] = {"type": session_type, **user}
 
-        return jsonify({"message": "User logged in successfully!", "api_key": new_api_key}), 201
+        return jsonify({"message": "Logged in successfully!", "api_key": new_api_key}), 200
 
     except Exception as e:
+        print(e)
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
 

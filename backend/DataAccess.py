@@ -1,12 +1,13 @@
 from datetime import date
 import mysql
+from mysql.connector import connect
 
 
 def get_db_connection():
-    return mysql.connector.connect(
+    return connect(
         host="localhost",
-        user="your_username",
-        password="xx",
+        user="root",
+        password="1234",
         database="mydb"
     )
 
@@ -43,7 +44,7 @@ def add_user_or_admin(name: str, email: str, password: str, account_type: str, b
 
 
 def login_user(email: str, password: str) -> dict:
-    query = "SELECT * FROM User WHERE email = %s AND password = %s"
+    query = "SELECT * FROM Account WHERE Email = %s AND Password = %s"
     values = (email, password)
 
     try:

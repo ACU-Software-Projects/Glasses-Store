@@ -1,7 +1,6 @@
 -- MySQL Workbench Forward Engineering
 # show databases;
 # use mostafa;
-show tables;
 SET @OLD_UNIQUE_CHECKS = @@UNIQUE_CHECKS, UNIQUE_CHECKS = 0;
 SET @OLD_FOREIGN_KEY_CHECKS = @@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS = 0;
 SET @OLD_SQL_MODE = @@SQL_MODE, SQL_MODE =
@@ -28,11 +27,10 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Account`
     `Email`       VARCHAR(45) NOT NULL,
     `Password`    VARCHAR(45) NOT NULL,
     `Balance`     INT         NOT NULL DEFAULT 0,
-    'AccountType' VARCHAR(45),
-    PRIMARY KEY (`idAccount`),
-    UNIQUE INDEX `UserId_UNIQUE` (`idAccount` ASC) VISIBLE
+    `AccountType` VARCHAR(45),
+    PRIMARY KEY (`idAccount`)
 )
-    ENGINE = InnoDB;
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -201,3 +199,5 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Invoice_has_Product`
 SET SQL_MODE = @OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS = @OLD_UNIQUE_CHECKS;
+
+show tables ;
