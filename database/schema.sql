@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Admin`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `mydb`.`Product`
 (
-    `idProduct`     INT          NOT NULL,
+    `idProduct`     INT          NOT NULL auto_increment,
     `Name`          VARCHAR(45)  NULL,
     `price`         INT          NULL,
     `Productcol`    VARCHAR(45)  NULL,
@@ -201,3 +201,5 @@ SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS = @OLD_UNIQUE_CHECKS;
 
 show tables ;
+select * from Account;
+select * from Product;

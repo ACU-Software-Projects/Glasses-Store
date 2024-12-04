@@ -58,10 +58,10 @@ def login():
         if not user:
             return jsonify({"error": "Invalid email or password."}), 401
 
-
         new_api_key = generate_api_key()
         session_type = 'admin' if user['AccountType'] == 'ADMIN' else 'user'
-        logged_in_session[new_api_key] = {"type": session_type, **user}
+        logged_in_session[new_api_key] = {"type": session_type, **user, 'account_type': 'ADMIN',
+                                          'AccountId': user['idAccount']}
 
         return jsonify({"message": "Logged in successfully!", "api_key": new_api_key}), 200
 
@@ -93,7 +93,7 @@ def register():
         print(email, username, account_type, password)
         if DataAccess.add_user_or_admin(email=email, name=username, password=password,
                                         account_type=account_type,
-                                        role=None if str(account_type).upper() == 'ADMIN' else "product manger"):
+                                        role="product manger" if str(account_type).upper() == 'ADMIN' else None):
 
             return jsonify({"message": "User registered successfully!"}), 201
         else:
@@ -142,9 +142,12 @@ def add_product():
         if logged_in_session[api_key]['account_type'] != 'ADMIN':
             return jsonify({"error": f"API key {api_key} not Admin."}), 401
 
-        # TODO call database to add product
+        if DataAccess.add_product_with_admin_id(admin_id=logged_in_session[api_key]['AccountId'], name=data['name'],
+                                                price=data['price'], description='good product'):
+            return jsonify({"message": "Product added successfully!"}), 201
+        else:
+            return jsonify({"error": "Product addition failed!"}), 401
 
-        return jsonify({"message": "Product added successfully!"}), 201
     except Exception as e:
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
