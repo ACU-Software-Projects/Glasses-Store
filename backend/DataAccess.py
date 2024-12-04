@@ -221,3 +221,90 @@ def delete_product_from_cart(cart_id, product_id):
     finally:
         cursor.close()
         conn.close()
+
+
+
+def fetch_user_invoices(account_id: int) -> list:
+
+    query = """
+    SELECT Invoice.* 
+    FROM Invoice
+    JOIN Invoice_has_User ON Invoice.idInvoice = Invoice_has_User.Invoice_idInvoice
+    JOIN User ON Invoice_has_User.User_idUser = User.idUser
+    WHERE User.Account_AccountId = %s
+    """
+
+    try:
+        connection = get_db_connection()  
+        cursor = connection.cursor(dictionary=True)  
+        cursor.execute(query, (account_id,))  
+        invoices = cursor.fetchall()  
+        return invoices if invoices else []  
+    except Exception as e:
+        print(f"Error: {e}")
+        return []  
+    finally:
+        cursor.close()  
+        connection.close()  
+
+
+
+def add_product_with_admin_id(name: str, price: int, description: str, admin_id: int) -> bool:
+
+    query = "INSERT INTO Product (Name, price, description, Admin_idAdmin) VALUES (%s, %s, %s, %s)"
+    values = (name, price, description, admin_id)
+
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor()
+        cursor.execute(query, values)
+        connection.commit()
+        return True
+    except Exception as e:
+        print(f"Error: {e}")
+        connection.rollback()
+        return False
+    finally:
+        cursor.close()
+        connection.close()
+
+
+
+def add_product(name: str, price: int, description: str, admin_email: str) -> bool:
+   
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor(dictionary=True)
+
+        
+        admin_query = """
+        SELECT idAdmin 
+        FROM Admin 
+        JOIN Account ON Admin.Account_AccountId = Account.idAccount
+        WHERE Account.Email = %s
+        """
+        cursor.execute(admin_query, (admin_email,))
+        admin = cursor.fetchone()
+
+        if not admin:
+            print("Admin not found!")
+            return False  
+
+        admin_id = admin['idAdmin'] 
+
+      
+        product_query = "INSERT INTO Product (Name, price, description, Admin_idAdmin) VALUES (%s, %s, %s, %s)"
+        product_values = (name, price, description, admin_id)
+        cursor.execute(product_query, product_values)
+
+        connection.commit()  
+        return True
+
+    except Exception as e:
+        print(f"Error: {e}")
+        connection.rollback()  
+        return False  
+
+    finally:
+        cursor.close()
+        connection.close()
