@@ -152,16 +152,14 @@ def add_product():
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
 
-app.route('/product/', methods=['GET'])
-
-
+@app.route('/product/', methods=['GET'])
 def get_products():
     # TODO Retrieve all products from database in data var
     data = ""
     return jsonify(data), 200
 
 
-app.route('/product/<int:product_id>', methods=['GET'])
+@app.route('/product/<int:product_id>', methods=['GET'])
 
 
 def get_product(product_id):
@@ -172,7 +170,7 @@ def get_product(product_id):
     return jsonify(productInfo), 200
 
 
-app.route('/product/<int:product_id>', methods=['DELETE'])
+@app.route('/product/<int:product_id>', methods=['DELETE'])
 
 
 def delete_product(product_id):
@@ -208,8 +206,12 @@ def deposit():
 
         api_key = data['api_key']
         amount = data['amount']
-
+        if api_key not in logged_in_session:
+            return jsonify({"error": f"API key {api_key} not found."}), 401
         # TODO make deposit in database
+        user_data = logged_in_session[api_key]
+        DataAccess.update_account_balance(account_id=user_data['AccountId'], new_balance=amount)
+
         return jsonify({"message": "Deposit successful!"}), 201
     except Exception as e:
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
@@ -234,21 +236,6 @@ def withdraw():
     except Exception as e:
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
-
-@app.route('/user/cart/add_product', methods=['POST'])
-def add_cart():
-    try:
-        data = request.get_json()
-        if not data:
-            return jsonify({"error": "Invalid input. No data provided."}), 400
-        required_fields = ['api_key', 'product_id']
-        missing_fields = [field for field in required_fields if field not in data]
-        if missing_fields:
-            return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
-        # TODO add product to cart database
-
-    except Exception as e:
-        return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
 
 # TODO make function that create Invoice

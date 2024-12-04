@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Account`
     `AccountType` VARCHAR(45),
     PRIMARY KEY (`idAccount`)
 )
-ENGINE = InnoDB;
+    ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -195,11 +195,19 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Invoice_has_Product`
 )
     ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS `mydb`.`User_products`
+(
+    `AccountId` INT NOT NULL,
+    `ProductId` INT NOT NULL,
+    CONSTRAINT `PK_User_Products` PRIMARY KEY (`AccountId`, `ProductId`)
+);
 
 SET SQL_MODE = @OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS = @OLD_UNIQUE_CHECKS;
 
-show tables ;
-select * from Account;
-select * from Product;
+show tables;
+select *
+from Account;
+select *
+from Product;

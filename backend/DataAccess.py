@@ -157,7 +157,7 @@ def fetch_invoice_by_id(invoice_id: int) -> dict:
 
 
 def get_product_data(product_id):
-    query = "SELECT * FROM product WHERE ProductID = %s"
+    query = "SELECT * FROM Product WHERE idProduct = %s"
     values = (product_id,)
     try:
         conn = get_db_connection()
@@ -223,9 +223,7 @@ def delete_product_from_cart(cart_id, product_id):
         conn.close()
 
 
-
 def fetch_user_invoices(account_id: int) -> list:
-
     query = """
     SELECT Invoice.* 
     FROM Invoice
@@ -235,22 +233,20 @@ def fetch_user_invoices(account_id: int) -> list:
     """
 
     try:
-        connection = get_db_connection()  
-        cursor = connection.cursor(dictionary=True)  
-        cursor.execute(query, (account_id,))  
-        invoices = cursor.fetchall()  
-        return invoices if invoices else []  
+        connection = get_db_connection()
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute(query, (account_id,))
+        invoices = cursor.fetchall()
+        return invoices if invoices else []
     except Exception as e:
         print(f"Error: {e}")
-        return []  
+        return []
     finally:
-        cursor.close()  
-        connection.close()  
-
+        cursor.close()
+        connection.close()
 
 
 def add_product_with_admin_id(name: str, price: int, description: str, admin_id: int) -> bool:
-
     query = "INSERT INTO Product (Name, price, description, Admin_idAdmin) VALUES (%s, %s, %s, %s)"
     values = (name, price, description, admin_id)
 
@@ -269,14 +265,11 @@ def add_product_with_admin_id(name: str, price: int, description: str, admin_id:
         connection.close()
 
 
-
 def add_product(name: str, price: int, description: str, admin_email: str) -> bool:
-   
     try:
         connection = get_db_connection()
         cursor = connection.cursor(dictionary=True)
 
-        
         admin_query = """
         SELECT idAdmin 
         FROM Admin 
@@ -288,23 +281,70 @@ def add_product(name: str, price: int, description: str, admin_email: str) -> bo
 
         if not admin:
             print("Admin not found!")
-            return False  
+            return False
 
-        admin_id = admin['idAdmin'] 
+        admin_id = admin['idAdmin']
 
-      
         product_query = "INSERT INTO Product (Name, price, description, Admin_idAdmin) VALUES (%s, %s, %s, %s)"
         product_values = (name, price, description, admin_id)
         cursor.execute(product_query, product_values)
 
-        connection.commit()  
+        connection.commit()
         return True
 
     except Exception as e:
         print(f"Error: {e}")
-        connection.rollback()  
-        return False  
+        connection.rollback()
+        return False
 
     finally:
         cursor.close()
         connection.close()
+
+
+def get_user_data(account_id):
+    query = "SELECT * FROM Account WHERE idAccount = %s"
+    values = (account_id,)
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute(query, values)
+        user = cursor.fetchone()
+        return user
+
+    finally:
+        cursor.close()
+        connection.close()
+    return None
+
+#TODO fix this function
+#TODO AHHHHHHHHHHHH
+def buy_product(account_id: int, product_id: int) -> bool:
+    product = get_product_data(product_id)
+    if not product:
+        print("Product not found!")
+        return False
+
+    total_price = product['price']
+    user = get_user_data(account_id)
+
+    if not user:
+        print("User not found!")
+        return False
+
+    if user['Balance'] < total_price:
+        print("Insufficient balance!")
+        return False
+
+    new_balance = user['Balance'] - total_price
+    update_account_balance(account_id, new_balance)
+
+    # values = (account_id, product_id)
+    tmp = get_db_connection()
+    cursor = tmp.cursor()
+    cursor.execute("INSERT INTO `mydb`.`User_products` (`AccountId`, `ProductId`) VALUES (1, );")
+    return True
+
+
+if __name__ == '__main__':
+    buy_product(1, 1)
