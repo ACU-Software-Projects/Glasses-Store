@@ -174,7 +174,7 @@ def get_product_data(product_id):
 
 
 def update_account_balance(account_id, new_balance):
-    query = "UPDATE account SET Balance = %s WHERE AccountID = %s"
+    query = "UPDATE Account SET Balance = %s WHERE idAccount = %s"
     values = (new_balance, account_id)
     try:
         conn = get_db_connection()
@@ -246,9 +246,9 @@ def fetch_user_invoices(account_id: int) -> list:
         connection.close()
 
 
-def add_product_with_admin_id(name: str, price: int, description: str, admin_id: int) -> bool:
-    query = "INSERT INTO Product (Name, price, description, Admin_idAdmin) VALUES (%s, %s, %s, %s)"
-    values = (name, price, description, admin_id)
+def add_product_with_admin_id(name: str, price: int, description: str, admin_id: int, image_src) -> bool:
+    query = "INSERT INTO Product (Name, price, description, Admin_idAdmin,ImageSrc) VALUES (%s, %s, %s, %s,%s)"
+    values = (name, price, description, admin_id, image_src)
 
     try:
         connection = get_db_connection()
@@ -317,33 +317,43 @@ def get_user_data(account_id):
         connection.close()
     return None
 
-#TODO fix this function
-#TODO AHHHHHHHHHHHH
+
+# TODO fix this function
+# TODO AHHHHHHHHHHHH
 def buy_product(account_id: int, product_id: int) -> bool:
-    product = get_product_data(product_id)
-    if not product:
-        print("Product not found!")
+    try:
+        product = get_product_data(product_id)
+        if not product:
+            print("Product not found!")
+            return False
+
+        total_price = product['price']
+        user = get_user_data(account_id)
+
+        if not user:
+            print("User not found!")
+            return False
+
+        if user['Balance'] < total_price:
+            print("Insufficient balance!")
+            return False
+
+        new_balance = user['Balance'] - total_price
+        update_account_balance(account_id, new_balance)
+
+        query = "INSERT INTO user_products (IdAccount, IdProduct) VALUES (%s, %s);"
+        values = (account_id, product_id)
+        connection = get_db_connection()
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute(query, values)
+        connection.commit()
+        tmp=cursor.fetchone()
+        print(tmp)
+    except Exception as e:
+        print(e)
         return False
-
-    total_price = product['price']
-    user = get_user_data(account_id)
-
-    if not user:
-        print("User not found!")
-        return False
-
-    if user['Balance'] < total_price:
-        print("Insufficient balance!")
-        return False
-
-    new_balance = user['Balance'] - total_price
-    update_account_balance(account_id, new_balance)
-
-    # values = (account_id, product_id)
-    tmp = get_db_connection()
-    cursor = tmp.cursor()
-    cursor.execute("INSERT INTO `mydb`.`User_products` (`AccountId`, `ProductId`) VALUES (1, );")
     return True
+
 
 
 if __name__ == '__main__':

@@ -7,18 +7,22 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/all.css">
     <link rel="stylesheet" href="registration.html">
+    <script>
+        window.onload = onPageLoad;
+
+    </script>
 </head>
+
 <body>
     <div class="nav">
         <img src="img/twitter_header_photo_1.png" alt="logo">
         <div class="chidren">
-        <a href="registration.html">Registration</a>
-        <a href="#">blog</a>
-        <a href="#">team</a>
-        <a href="#">Prices</a>
-        <a href="#">Services</a>
-        <a href="#">portfolio</a>
-        <a href="#">about</a>
+            <a href="invoice.html">invoice</a>
+            <a href="add-product.html" id="add-product">Add Product</a>
+            <a href="cart.html">Cart</a>
+            <a href="#Pricing Table">Prices</a>
+            <a href="#products">broducts</a>
+            <a href="#types">types of lenses</a>
         <a href="#">Home</a>
     </div><!-- cildren -->
     </div><!--nav  -->
@@ -58,13 +62,13 @@
         </div> <!--sale  -->
          </div><!-- parenent-->
     </div><!-- sec2 -->
-    <div class="sec-3">
+    <div class="sec-3" id="products">
       <h2>Products</h2>
       <div class="line">
          </div><!-- line -->
          <div class="contener">
         <div class="img-item">
-            <img src="img/images (3).jpeg" alt="Product-1" width="340px" height="190px">
+            <img id="prodect-1" width="340px" height="190px">
             <div class="img-overlay">
            <h2>For men</h2>
            <p> pric:50&#36;</p>
@@ -72,35 +76,35 @@
             </div><!-- img-overlay -->
         </div><!--img-item-->
         <div class="img-item">
-            <img src="img/009b767917c7fa0fe9f58ec4e9e14b5f.jpg_720x720q80.jpg" alt="Product-1" width="340px" height="190px">
+            <img id="product-2" width="340px" height="190px">
             <div class="img-overlay">
            <h2>For children</h2>
            <p> pric:50&#36;</p>
            <a href="#"><i class="fas fa-cart-arrow-down"></i></a>
             </div><!-- img-overlay -->
         </div><!--img-item--> <div class="img-item">
-            <img src="img/images (7).jpeg" alt="Product-1" width="340px" height="190px">
+            <img id="product-3" width="340px" height="190px">
             <div class="img-overlay">
            <h2>For children</h2>
            <p> pric:50&#36;</p>
            <a href="#"><i class="fas fa-cart-arrow-down"></i></a>
             </div><!-- img-overlay -->
         </div><!--img-item--> <div class="img-item">
-            <img src="img/images (1).jpeg" alt="Product-1" width="340px" height="190px">
+            <img id="product-4" width="340px" height="190px">
             <div class="img-overlay">
            <h2>For men and women</h2>
            <p> pric:50&#36;</p>
            <a href="#"><i class="fas fa-cart-arrow-down"></i></a>
             </div><!-- img-overlay -->
         </div><!--img-item--> <div class="img-item">
-            <img src="img/images (2).jpeg" alt="Product-1" width="340px" height="190px">
+            <img id="product-5" width="340px" height="190px">
             <div class="img-overlay">
            <h2>For men</h2>
            <p> pric:50&#36;</p>
            <a href="#"><i class="fas fa-cart-arrow-down"></i></a>
             </div><!-- img-overlay -->
         </div><!--img-item--> <div class="img-item">
-            <img src="img/images (4).jpeg" alt="Product-1" width="340px" height="190px">
+            <img id="product-6" width="340px" height="190px">
             <div class="img-overlay">
            <h2>For men and women</h2>
            <p> pric:50&#36;</p>
@@ -109,7 +113,7 @@
          </div><!--img-item-->
            </div><!--contener-->
      </div><!-- sec-3 -->
-     <div class="sec-4">
+     <div class="sec-4" id="types">
         <h2>Type of Lensess</h2>
         <div class="line">
             
@@ -199,8 +203,8 @@
 </div><!-- line -->
 <div class="contener">
 
-<div class="price">
-    <div class="overlay-price">
+<div class="price" id="Pricing Table">
+    <div>
 
     </div>
     <h3>Blue Cut</h3>
@@ -234,84 +238,7 @@
         </div><!--  price-->
         </div><!-- sec-7 -->
         </div>
-        <div class="sec-8">
-            <div class="overlay-sec-8">
-             <div class="contener-sec-8">
-                <div class="info-parent">
-            <div class="info" >
-                <img src="img/photo_2024-09-17_11-12-29.jpg" height="70px" width="70px" style="border-radius: 50%; display: inline;">
-                <h3>yosf Elsayed</h3>
-                <span>Netwok Enigneer</span>
-                
-              </div><!-- info-->
-              <p>This is my first project in web design, and I hope it meets your approval</p>
-                </div><!-- info parent -->
-                <div class="info-parent">
-                    <div class="info" >
-                        <img src="img/photo_2024-09-17_11-12-29.jpg" height="70px" width="70px" style="border-radius: 50%; display: inline;">
-                        <h3>yosf Elsayed</h3>
-                        <span>Netwok Enigneer</span>
-                        
-                      </div><!-- info-->
-                      <p>This is my first project in web design, and I hope it meets your approval</p>
-                        </div><!-- info parent -->
-              </div><!-- contener-sec-6 -->
-              </div><!--overlay-sec-8  -->
-        </div><!-- sec-8 -->
-        <div class="sec-9">
-                  <h2>Our Team</h2>
-                         <div class="line">
-
-                         </div><!-- line -->
-            <div class="team-container">
-                <div class="team-parent">
-                      <div class="team-item">
-                            <div class="team-img">
-                                <img src="img/photo_2024-09-17_11-12-06.jpg"  width="190px" height="190px">
-                                <div class="team-overlay">
-                                    <a href="#"><i class="fab fa-facebook-square"></i></a> 
-                                    <a href="#"><i class="fab fa-twitter-square"></i></a> 
-                                    <a href=""><i class="fab fa-linkedin"></i></a> 
-                                </div>
-                            </div> <!-- /team-img -->
-                            <div class="team-info">
-                                <h2 class="team-info-title">Yousf Elsayed</h2>
-                                <p class="team-info-p">Embdded system Enigneer</p>
-                            </div> <!-- /team-info -->
-                      </div> <!-- /team-item -->
-  
-                      <div class="team-item " style=" margin: 0px  5%;">
-                          <div class="team-img">
-                              <img src="img/photo_2024-09-17_11-12-06.jpg"   width="180px" height="180px">
-                              <div class="team-overlay">
-                                  <a href="#"><i class="fab fa-facebook-square"></i></a> 
-                                  <a href="#"><i class="fab fa-twitter-square"></i></a> 
-                                  <a href=""><i class="fab fa-linkedin"></i></a> 
-                              </div>
-                          </div> <!-- /team-img -->
-                          <div class="team-info">
-                              <h2 class="team-info-title">Yousf Elsayed</h2>
-                              <p class="team-info-p">Embdded system Enigneer</p>
-                          </div> <!-- /team-info -->
-                    </div> <!-- /team-item -->
-  
-                    <div class="team-item">
-                      <div class="team-img">
-                          <img src="img/photo_2024-09-17_11-12-06.jpg" width="180px" height="180px">
-                          <div class="team-overlay">
-                              <a href="#"><i class="fab fa-facebook-square"></i></a> 
-                              <a href="#"><i class="fab fa-twitter-square"></i></a> 
-                              <a href=""><i class="fab fa-linkedin"></i></a> 
-                          </div>
-                      </div> <!-- /team-img -->
-                      <div class="team-info">
-                          <h2 class="team-info-title">Yousf Elsayed</h2>
-                          <p class="team-info-p">Embdded system Enigneer</p>
-                      </div> <!-- /team-info -->
-                </div> <!-- /team-item -->
-                </div>  <!-- /parent -->
-           </div> <!-- /container -->
-        </div><!-- sec-9 -->
+       
         <div class="footer">
             <div class="cont">
 <img src="img/youtube_profile_image.png" alt="logo" height="100px" width="250px" style="margin: auto ; margin-left: 20px;">
@@ -325,5 +252,6 @@
 <p>copyright © 2021 . all right reserved by colorlib</p>
             </div><!-- cont -->
         </div><!-- footer -->
+        <script src="script.js"></script>
 </body>
 </html>

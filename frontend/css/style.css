@@ -500,5 +500,159 @@ text-align: center;
 {
 padding: 100px;
 }
-
+body {
+    overflow-x: hidden;
+}
+/* Default Styling (Desktop First) */
+* {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+body {
+    overflow-x: hidden;
+}
+.nav {
+    position: fixed;
+    height: 50px;
+    width: 100%;
+    background-color: rgba(91, 114, 240, 0.534);
+    z-index: 10;
+    opacity: 0.8;
+}
+.nav img {
+    height: 40px;
+    width: 100px;
+    border-radius: 10px;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+.chidren a {
+    float: right;
+    text-decoration: none;
+    margin-right: 15px;
+    color: rgb(235, 237, 246);
+    font-weight: bold;
+}
+.chidren {
+    margin-top: -35px;
+    margin-right: 150px;
+}
+/* Mobile Responsive Styling */
+@media (max-width: 768px) {
+    .nav {
+        height: auto;
+        flex-wrap: wrap;
+        text-align: center;
+    }
+    .nav img {
+        margin: 10px auto;
+        display: block;
+    }
+    .chidren a {
+        float: none;
+        display: inline-block;
+        margin: 10px 5px;
+    }
+}
+.sec-1 {
+    width: 100%;
+    height: 100vh;
+    background-image: url(../img/image.png);
+    background-size: cover;
+    background-position: center;
+}
+.overlay {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    top: 0;
+    left: 0;
+    opacity: 0.5;
+}
+.content {
+    padding-top: 200px;
+    padding-left: 20px;
+    color: white;
+    text-align: center;
+    position: absolute;
+    font-size: medium;
+}
+.content h2, .content h3 {
+    padding: 0;
+    margin-bottom: 10px;
+}
+.content .but-1 {
+    margin: auto;
+    text-align: center;
+}
+button {
+    margin-top: 10px;
+    width: 90%;
+    height: 50px;
+    font-size: medium;
+}
+/* Responsive Product Grid */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+/* Pricing Table Responsive */
+.sec-7 .price {
+    width: 100%;
+    margin-bottom: 20px;
+    float: none;
+}
+@media (min-width: 768px) {
+    .sec-7 .price {
+        float: left;
+        width: 30%;
+        margin-top: 50px;
+    }
+}
+/* Team Section Responsive */
+.team-parent {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+.team-item {
+    margin: auto;
+    width: 90%;
+    text-align: center;
+}
+@media (max-width: 500px) {
+    body {
+        font-size: 14px;
+    }
+    .content {
+        font-size: small;
+        padding-top: 150px;
+    }
+    .chidren a {
+        font-size: 12px;
+        margin: 5px;
+    }
+    button {
+        font-size: small;
+    }
+    .team-item, .price {
+        width: 100%;
+    }
+}
+#add-product-link {
+    display: none; 
+}
+/* Footer */
+.footer {
+    height: auto;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+.footer .cont {
+    padding: 20px;
+}
 

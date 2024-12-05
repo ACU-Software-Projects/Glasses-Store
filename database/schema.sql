@@ -82,6 +82,7 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Product`
     `Productcol`    VARCHAR(45)  NULL,
     `description`   VARCHAR(45)  NULL,
     `Productcol1`   VARCHAR(45)  NULL,
+    `Image`         VARCHAR(45)  NULL,
     `Admin_idAdmin` INT UNSIGNED NOT NULL,
     PRIMARY KEY (`idProduct`),
     INDEX `fk_Product_Admin1_idx` (`Admin_idAdmin` ASC) VISIBLE,
@@ -93,6 +94,14 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Product`
 )
     ENGINE = InnoDB;
 
+ALTER TABLE `mydb`.`Product`
+    ADD COLUMN `ImageSrc` VARCHAR(45) NULL;
+
+ALTER TABLE `mydb`.`Product`
+    DROP FOREIGN KEY `fk_Product_Admin1`;
+
+ALTER TABLE `mydb`.`Product`
+    CHANGE COLUMN `Admin_idAdmin` `Admin_idAdmin` INT NOT NULL;
 
 -- -----------------------------------------------------
 -- Table `mydb`.`Cart`
@@ -195,12 +204,14 @@ CREATE TABLE IF NOT EXISTS `mydb`.`Invoice_has_Product`
 )
     ENGINE = InnoDB;
 
+drop table if exists User_products;
 CREATE TABLE IF NOT EXISTS `mydb`.`User_products`
 (
-    `AccountId` INT NOT NULL,
-    `ProductId` INT NOT NULL,
-    CONSTRAINT `PK_User_Products` PRIMARY KEY (`AccountId`, `ProductId`)
+    `IdAccount` INT NOT NULL,
+    `IdProduct` INT NOT NULL
 );
+select *
+from User_products;
 
 SET SQL_MODE = @OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS;
@@ -211,3 +222,9 @@ select *
 from Account;
 select *
 from Product;
+INSERT INTO user_products (IdAccount, IdProduct) VALUES (1, 1);
+select *
+from user_products;
+
+DELETE FROM user_products;
+show tables ;

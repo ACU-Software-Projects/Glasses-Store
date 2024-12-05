@@ -43,6 +43,18 @@ def hello_world():  # put application's code here
     return jsonify('Hello World! iguvhihihihiononhoi'), 201
 
 
+@app.route('/account/data', methods=['GET', 'POST'])
+def get_user_data():
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Invalid input. No data provided."}), 400
+
+    validation_error = validate_input(data, ['api_key'])
+    if validation_error:
+        return jsonify({"error": validation_error["error"]}), validation_error["status"]
+    return jsonify(logged_in_session[data['api_key']]), 200
+
+
 @app.route('/login', methods=['POST', 'GET'])
 def login():
     try:
@@ -60,10 +72,13 @@ def login():
 
         new_api_key = generate_api_key()
         session_type = 'admin' if user['AccountType'] == 'ADMIN' else 'user'
+
         logged_in_session[new_api_key] = {"type": session_type, **user, 'account_type': 'ADMIN',
                                           'AccountId': user['idAccount']}
 
-        return jsonify({"message": "Logged in successfully!", "api_key": new_api_key}), 200
+        return jsonify({"message": "Logged in successfully!", "api_key": new_api_key,
+                        "account_type": session_type
+                        }), 200
 
     except Exception as e:
         print(e)
@@ -130,7 +145,7 @@ def add_product():
         data = request.get_json()
         if not data:
             return jsonify({"error": "Invalid input. No data provided."}), 400
-        required_fields = ['api_key', 'name', 'price', 'quantity']
+        required_fields = ['api_key', 'name', 'price', 'image', 'quantity']
 
         missing_fields = [field for field in required_fields if field not in data]
         if missing_fields:
@@ -141,9 +156,10 @@ def add_product():
 
         if logged_in_session[api_key]['account_type'] != 'ADMIN':
             return jsonify({"error": f"API key {api_key} not Admin."}), 401
-
+        print(logged_in_session[api_key])
         if DataAccess.add_product_with_admin_id(admin_id=logged_in_session[api_key]['AccountId'], name=data['name'],
-                                                price=data['price'], description='good product'):
+                                                price=data['price'], description='good product',
+                                                image_src=data['image']):
             return jsonify({"message": "Product added successfully!"}), 201
         else:
             return jsonify({"error": "Product addition failed!"}), 401
@@ -160,8 +176,6 @@ def get_products():
 
 
 @app.route('/product/<int:product_id>', methods=['GET'])
-
-
 def get_product(product_id):
     # TODO check product in database by id and get it's all data
     # if product_id not in ##DATABASE##:
@@ -171,8 +185,6 @@ def get_product(product_id):
 
 
 @app.route('/product/<int:product_id>', methods=['DELETE'])
-
-
 def delete_product(product_id):
     try:
         data = request.get_json()
@@ -235,7 +247,6 @@ def withdraw():
         return jsonify({"message": "withdraw successful!"}), 201
     except Exception as e:
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
-
 
 
 # TODO make function that create Invoice
