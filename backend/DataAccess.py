@@ -236,14 +236,8 @@ def delete_product_from_cart(cart_id, product_id):
         conn.close()
 
 
-def fetch_user_invoices(account_id: int) -> list:
-    query = """
-    SELECT Invoice.* 
-    FROM Invoice
-    JOIN Invoice_has_User ON Invoice.idInvoice = Invoice_has_User.Invoice_idInvoice
-    JOIN User ON Invoice_has_User.User_idUser = User.idUser
-    WHERE User.Account_AccountId = %s
-    """
+def fetch_user_products(account_id: int) -> list:
+    query = """SELECT * FROM User_products where IdAccount = %s"""
 
     try:
         connection = get_db_connection()

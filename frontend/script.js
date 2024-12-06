@@ -65,7 +65,7 @@ async function addProduct() {
     const productImg = document.getElementById('product-img').value;
 
     // Create an object representing the product
-      //  required_fields = ['api_key', 'name', 'price', 'image', 'quantity']
+    //  required_fields = ['api_key', 'name', 'price', 'image', 'quantity']
     //
     const newItem = {
         api_key: api_key,
@@ -137,7 +137,7 @@ async function onPageLoad() {
     }
 }
 
-async function loadProducts(productsData) {
+async function loadProducts() {
     try {
         const response = await fetch(apiUrl + '/products', {
             method: 'GET',
@@ -147,7 +147,7 @@ async function loadProducts(productsData) {
         });
         if (!response.ok) throw new Error(`GET failed: ${response.status}`);
         const productsData = await response.json();
-
+        alert(JSON.stringify(productsData))
         const productsContainer = document.querySelector('.sec-3 .contener');
         productsContainer.innerHTML = ''; // Clear existing content
         productsData.forEach(product => {
@@ -159,12 +159,36 @@ async function loadProducts(productsData) {
                     <h2>${product.Name}</h2>
                     <p>Price: $${product.price}</p>
                     <a href="#"><i class="fas fa-cart-arrow-down"></i></a>
+                    <button onclick="buyProduct(${product.idProduct})"></button>
                 </div>
             `;
             productsContainer.appendChild(productDiv);
         });
     } catch (error) {
         console.error('Error loading products:', error);
+    }
+}
+
+
+async function buyProduct(productId) {
+    alert(productId)
+    try {
+        const newItem = {
+            'api_key': api_key,
+            'product_id': productId,
+        };
+        const response = await fetch(apiUrl + '/user/checkout_product', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newItem),
+        });
+        if (!response.ok) throw new Error(`POST failed: ${response.status}`);
+        const data = await response.json();
+        alert(data['message']);
+    } catch (error) {
+        console.error('Error buying product:', error);
     }
 }
 
@@ -257,4 +281,29 @@ async function logout() {
     } catch (error) {
         displayResponse({error: error.message});
     }
+}
+
+async function loadMyGlasses() {
+
+
+    try {
+        const response = await fetch(apiUrl + '/products', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) throw new Error(`GET failed: ${response.status}`);
+        const productsData = await response.json();
+
+
+
+
+
+
+
+    }catch (error) {
+        console.error('Error loading products:', error);
+    }
+
 }

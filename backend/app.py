@@ -271,13 +271,13 @@ def withdraw():
 
 
 # TODO make function that create Invoice
-@app.route('/user/cart/checkout', methods=['POST'])
+@app.route('/user/checkout_product', methods=['POST'])
 def checkout():
     try:
         data = request.get_json()
         if not data:
             return jsonify({"error": "Invalid input. No data provided."}), 400
-        required_fields = ['api_key', 'cart_id']
+        required_fields = ['api_key', 'product_id']
         missing_fields = [field for field in required_fields if field not in data]
         if missing_fields:
             return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
@@ -286,10 +286,11 @@ def checkout():
         if api_key not in logged_in_session:
             return jsonify({"error": f"API key {api_key} not found."}), 401
 
-        # TODO make invoice in the data base
-        # get it's data
-        # return it's data to the frontend
-
+        user_data = logged_in_session[api_key]
+        if DataAccess.buy_product(product_id=data['product_id'], account_id=user_data['AccountId']):
+            return jsonify({"message": "Product bought successfully!"}), 201
+        else:
+            return jsonify({"error": "Failed to buy product!"}), 401
     except Exception as e:
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
@@ -364,6 +365,8 @@ def get_user_invoice():
         if logged_in_session[api_key]['account_type'] != 'USER':
             return jsonify({"error": f"API key {api_key} not user."}), 401
         # TODO get all user invoice from database
+        tmp = DataAccess.fetch_user_products(logged_in_session[api_key]['AccountId'])
+        return jsonify(tmp), 200
     except Exception as e:
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
