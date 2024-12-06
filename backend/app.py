@@ -344,15 +344,14 @@ def delete_invoice(invoice_id):
         if missing_fields:
             return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
         api_key = data['api_key']
-        if logged_in_session[api_key]['account_type'] != 'USER':
-            return jsonify({"error": f"API key {api_key} not user."}), 401
+
         # TODO get invoice from database
     except Exception as e:
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
 
-@app.route('/user/invoice/', methods=['GET'])
-def get_user_invoice():
+@app.route('/user/products', methods=['GET'])
+def get_user_products():
     try:
         data = request.get_json()
         if not data:
@@ -362,7 +361,7 @@ def get_user_invoice():
         if missing_fields:
             return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
         api_key = data['api_key']
-        if logged_in_session[api_key]['account_type'] != 'USER':
+        if logged_in_session[api_key]['AccountType'] != 'USER':
             return jsonify({"error": f"API key {api_key} not user."}), 401
         # TODO get all user invoice from database
         tmp = DataAccess.fetch_user_products(logged_in_session[api_key]['AccountId'])
