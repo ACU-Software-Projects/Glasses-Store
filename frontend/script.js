@@ -284,26 +284,56 @@ async function logout() {
 }
 
 async function loadMyGlasses() {
-
+    alert("loadmyGlasses");
 
     try {
-        const response = await fetch(apiUrl + '/products', {
-            method: 'GET',
+        const newItem = {
+            'api_key': api_key
+        };
+
+        const response = await fetch(apiUrl + '/user/products', {
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
+            body: JSON.stringify(newItem),
         });
-        if (!response.ok) throw new Error(`GET failed: ${response.status}`);
-        const productsData = await response.json();
 
+        if (!response.ok) throw new Error(`POST failed: ${response.status}`);
 
+        const productsData = await response.json();  // Parse the response as JSON
+        alert(JSON.stringify(productsData));
 
+        const productsContainer = document.querySelector('.sec-3 .contener');
+        productsContainer.innerHTML = ''; // Clear existing content
 
+        // Loop through each product
+        for (const productTmp of productsData) {
+            // Fetch each product's details using its ID
+            const productResponse = await fetch(apiUrl + '/product/' + parseInt(productTmp.IdProduct));
 
+            if (!productResponse.ok) {
+                console.error(`Failed to fetch product ${productTmp.IdProduct}`);
+                continue; // Skip to the next product if fetching details failed
+            }
 
+            const product = await productResponse.json();  // Get the actual product details
 
-    }catch (error) {
+            // Create the product div and append it to the container
+            const productDiv = document.createElement('div');
+            productDiv.classList.add('img-item');
+            productDiv.innerHTML = `
+                <img src="${product.ImageSrc}" width="340px" height="190px" alt="Glasses" onerror="this.onerror=null;this.src='defaulte.jpg';">
+                <div class="img-overlay">
+                    <h2>${product.Name}</h2>
+                    <p>Price: $${product.price}</p>
+                    <a href="#"><i class="fas fa-cart-arrow-down"></i></a>
+                </div>
+            `;
+            productsContainer.appendChild(productDiv);
+        }
+
+    } catch (error) {
         console.error('Error loading products:', error);
     }
-
 }

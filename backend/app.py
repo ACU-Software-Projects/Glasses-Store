@@ -186,10 +186,9 @@ def get_products():
 
 @app.route('/product/<int:product_id>', methods=['GET'])
 def get_product(product_id):
-    # TODO check product in database by id and get it's all data
-    # if product_id not in ##DATABASE##:
-    #   return error 404
-    productInfo = ""
+    productInfo = DataAccess.get_product_data(product_id)
+    if productInfo == None:
+        return jsonify({"error": "Product not found."}), 404
     return jsonify(productInfo), 200
 
 
@@ -350,7 +349,7 @@ def delete_invoice(invoice_id):
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
 
-@app.route('/user/products', methods=['GET'])
+@app.route('/user/products', methods=['GET', 'POST'])
 def get_user_products():
     try:
         data = request.get_json()
@@ -367,8 +366,10 @@ def get_user_products():
         tmp = DataAccess.fetch_user_products(logged_in_session[api_key]['AccountId'])
         return jsonify(tmp), 200
     except Exception as e:
+        print(e)
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
 
 if __name__ == '__main__':
+    print("asdfghjkl")
     app.run(host='0.0.0.0', debug=True)
