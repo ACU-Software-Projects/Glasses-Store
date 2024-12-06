@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <link rel="stylesheet" href="css/invoice.css">
+</head>
+<body>
+
+<div class="invoice-container">
+    <!-- Invoice Header -->
+    <div class="invoice-header">
+        <h1>Invoice</h1>
+    </div>
+
+    <!-- Invoice Details -->
+    <div class="invoice-details">
+        <p><strong>Invoice Number:</strong> #12345</p>
+        <p><strong>Date:</strong> December 2, 2024</p>
+        <p><strong>Customer Name:</strong> John Doe</p>
+    </div>
+
+    <!-- Invoice Table -->
+    <table>
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Type</th>
+                <th>Quantity</th>
+                <th>Unit Price</th>
+                <th>Total Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Ray-Ban Sunglasses</td>
+                <td>Accessories</td>
+                <td>2</td>
+                <td>$150</td>
+                <td>$300</td>
+            </tr>
+            <tr>
+                <td>Oakley Eyeglasses</td>
+                <td>Eyewear</td>
+                <td>1</td>
+                <td>$120</td>
+                <td>$120</td>
+            </tr>
+            <tr>
+                <td>Prada Frames</td>
+                <td>Eyewear</td>
+                <td>3</td>
+                <td>$200</td>
+                <td>$600</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr class="total-row">
+                <td colspan="4">Total</td>
+                <td>$1020</td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <!-- Invoice Footer -->
+    <div class="invoice-footer">
+        <p>Thank you for your purchase!</p>
+    </div>
+</div>
+
+</body>
+</html>

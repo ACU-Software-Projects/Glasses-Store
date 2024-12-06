@@ -172,6 +172,20 @@ def get_product_data(product_id):
         conn.close()
     return None
 
+def get_all_products():
+    query = "SELECT * FROM Product"
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute(query)
+        products = cursor.fetchall()
+        return products
+    except Exception as e:
+        print(e)
+    finally:
+        cursor.close()
+        conn.close()
+    return None
 
 def update_account_balance(account_id, new_balance):
     query = "UPDATE Account SET Balance = %s WHERE idAccount = %s"
@@ -181,11 +195,10 @@ def update_account_balance(account_id, new_balance):
         cursor = conn.cursor()
         cursor.execute(query, values)
         conn.commit()
+        return True
     except Exception as e:
         print(e)
-    finally:
-        cursor.close()
-        conn.close()
+        return False
 
 
 def add_product_to_cart(cart_id, product_id, quantity):
@@ -258,7 +271,6 @@ def add_product_with_admin_id(name: str, price: int, description: str, admin_id:
         return True
     except Exception as e:
         print(f"Error: {e}")
-        connection.rollback()
         return False
     finally:
         cursor.close()
@@ -318,8 +330,6 @@ def get_user_data(account_id):
     return None
 
 
-# TODO fix this function
-# TODO AHHHHHHHHHHHH
 def buy_product(account_id: int, product_id: int) -> bool:
     try:
         product = get_product_data(product_id)
@@ -347,13 +357,12 @@ def buy_product(account_id: int, product_id: int) -> bool:
         cursor = connection.cursor(dictionary=True)
         cursor.execute(query, values)
         connection.commit()
-        tmp=cursor.fetchone()
+        tmp = cursor.fetchone()
         print(tmp)
     except Exception as e:
         print(e)
         return False
     return True
-
 
 
 if __name__ == '__main__':
