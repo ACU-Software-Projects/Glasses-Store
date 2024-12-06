@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart - Optical Store</title>
+    <link rel="stylesheet" href="css/cart.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header>
+        <nav>
+            <h1>Online Optical Store</h1>
+          
+        </nav>
+    </header>
+
+    <!-- Cart Page -->
+    <main>
+        <h2>Your Cart</h2>
+        <div id="cart-container">
+            <div class="item-card">
+                <h3>Sunglasses</h3>
+                <p><strong>Price:</strong> $150</p>
+                <p><strong>Quantity:</strong>
+                    <input type="number" value=" " min="1" class="quantity-input">
+                </p>
+                <p><strong>Total:</strong> $150</p>
+                <button>Update</button>
+                <button>Remove</button>
+            </div>           
+        </div>
+
+        <div id="cart-total" class="cart-total">
+            <p><strong>Total: </strong></p>
+            <button  class="checkout-btn" onclick="window.location.href='invoice.html';">pay</button>
+            <button  class="checkout-btn" onclick="window.location.href='index.html';">Home</button>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Online Optical Store</p>
+    </footer>
+
+</body>
+</html>

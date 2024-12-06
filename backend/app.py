@@ -1,15 +1,27 @@
 from flask import Flask, request, jsonify
 import string, random
 import flask_cors
-from jinja2.utils import missing
-import mysql.connector
+import DataAccess
+import models
+
+# from backend.models.admin import Admin
+# import backend.models.admin
 
 logged_in_session = {}
 
 
+def generate_key():
+    # Define the pool of characters: uppercase, lowercase, and digits
+    characters = string.ascii_letters + string.digits  # 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+    # Randomly select 10 characters from the pool
+    api_key = ''.join(random.choices(characters, k=10))
+    return api_key
+
+
 def generate_api_key():
-    while tmp := (''.join([random.choice(string.ascii_letters) for _ in range(8)])) in logged_in_session:
-        pass
+    tmp = generate_key()
+    while tmp in logged_in_session:
+        tmp = generate_key()
     return tmp
 
 
@@ -17,37 +29,68 @@ app = Flask(__name__)
 flask_cors.CORS(app)
 
 
+def update_api_key(api_key):
+    return DataAccess.get_user_data(logged_in_session[api_key]['AccountId'])
+
+
+def validate_input(data, required_fields):
+    if not data:
+        return {"error": "Invalid input. No data provided.", "status": 400}
+    missing_fields = [field for field in required_fields if field not in data]
+    if missing_fields:
+        return {"error": f"Missing fields: {', '.join(missing_fields)}", "status": 400}
+    return None
+
+
 @app.route('/')
 def hello_world():  # put application's code here
     return jsonify('Hello World! iguvhihihihiononhoi'), 201
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/account/data', methods=['GET', 'POST'])
+def get_user_data():
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "Invalid input. No data provided."}), 400
+
+    validation_error = validate_input(data, ['api_key'])
+    try:
+        tmp = DataAccess.get_user_data(logged_in_session[data['api_key']]['AccountId'])
+        return jsonify(tmp), 200
+    except Exception as e:
+        return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
+    if validation_error:
+        return jsonify({"error": validation_error["error"]}), validation_error["status"]
+    return jsonify(logged_in_session[data['api_key']]), 200
+
+
+@app.route('/login', methods=['POST', 'GET'])
 def login():
     try:
-        # Parse JSON data from request
         data = request.get_json()
-
-        if not data:
-            return jsonify({"error": "Invalid input. No data provided."}), 400
-
-        # Validate required fields
-        required_fields = ['email', 'password']
-        missing_fields = [field for field in required_fields if field not in data]
-        if missing_fields:
-            return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
+        validation_error = validate_input(data, ['email', 'password'])
+        if validation_error:
+            return jsonify({"error": validation_error["error"]}), validation_error["status"]
 
         email = data['email']
         password = data['password']
+        user = DataAccess.login_user(email=email, password=password)
+
+        if not user:
+            return jsonify({"error": "Invalid email or password."}), 401
 
         new_api_key = generate_api_key()
+        session_type = 'admin' if user['AccountType'] == 'ADMIN' else 'user'
 
-        # TODO Other data from database
-        logged_in_session[new_api_key] = {'email': email, 'password': password}
+        logged_in_session[new_api_key] = {"type": session_type, **user, 'account_type': 'ADMIN',
+                                          'AccountId': user['idAccount']}
 
-        return jsonify({"message": "User registered successfully!", "api_key": new_api_key}), 201
+        return jsonify({"message": "Logged in successfully!", "api_key": new_api_key,
+                        "account_type": session_type
+                        }), 200
 
     except Exception as e:
+        print(e)
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
 
@@ -70,12 +113,15 @@ def register():
         username = data['username']
         account_type = data['account_type']
         password = data['password']
+
         print(email, username, account_type, password)
-        # TODO call database to add new account
-        # TODO check if there user with same username or email
+        if DataAccess.add_user_or_admin(email=email, name=username, password=password,
+                                        account_type=account_type,
+                                        role="product manger" if str(account_type).upper() == 'ADMIN' else None):
 
-        return jsonify({"message": "User registered successfully!"}), 201
-
+            return jsonify({"message": "User registered successfully!"}), 201
+        else:
+            return jsonify({"error": "User registration failed!"}), 401
     except Exception as e:
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
@@ -108,7 +154,7 @@ def add_product():
         data = request.get_json()
         if not data:
             return jsonify({"error": "Invalid input. No data provided."}), 400
-        required_fields = ['api_key', 'name', 'price', 'quantity']
+        required_fields = ['api_key', 'name', 'price', 'image', 'quantity']
 
         missing_fields = [field for field in required_fields if field not in data]
         if missing_fields:
@@ -119,37 +165,34 @@ def add_product():
 
         if logged_in_session[api_key]['account_type'] != 'ADMIN':
             return jsonify({"error": f"API key {api_key} not Admin."}), 401
+        if DataAccess.add_product_with_admin_id(admin_id=logged_in_session[api_key]['AccountId'], name=data['name'],
+                                                price=data['price'], description='good product',
+                                                image_src=data['image']):
+            return jsonify({"message": "Product added successfully!"}), 201
+        else:
+            print("data acess error")
+            return jsonify({"error": "Product addition failed!"}), 401
 
-        # TODO call database to add product
-
-        return jsonify({"message": "Product added successfully!"}), 201
     except Exception as e:
+        print(e)
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
 
-app.route('/product/', methods=['GET'])
-
-
+@app.route('/products', methods=['GET'])
 def get_products():
-    # TODO Retrieve all products from database in data var
-    data = ""
+    data = DataAccess.get_all_products()
     return jsonify(data), 200
 
 
-app.route('/product/<int:product_id>', methods=['GET'])
-
-
+@app.route('/product/<int:product_id>', methods=['GET'])
 def get_product(product_id):
-    # TODO check product in database by id and get it's all data
-    # if product_id not in ##DATABASE##:
-    #   return error 404
-    productInfo = ""
+    productInfo = DataAccess.get_product_data(product_id)
+    if productInfo == None:
+        return jsonify({"error": "Product not found."}), 404
     return jsonify(productInfo), 200
 
 
-app.route('/product/<int:product_id>', methods=['DELETE'])
-
-
+@app.route('/product/<int:product_id>', methods=['DELETE'])
 def delete_product(product_id):
     try:
         data = request.get_json()
@@ -173,25 +216,8 @@ def delete_product(product_id):
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
 
-@app.route('/payment/deposit', methods=['POST'])
+@app.route('/payment/deposit', methods=['POST', 'GET'])
 def deposit():
-    try:
-        data = request.get_json()
-        if not data:
-            return jsonify({"error": "Invalid input. No data provided."}), 400
-        required_fields = ['api_key', 'amount']
-
-        api_key = data['api_key']
-        amount = data['amount']
-
-        # TODO make deposit in database
-        return jsonify({"message": "Deposit successful!"}), 201
-    except Exception as e:
-        return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
-
-
-@app.route('/payment/withdraw', methods=['POST'])
-def withdraw():
     try:
         data = request.get_json()
         if not data:
@@ -200,18 +226,52 @@ def withdraw():
         missing_fields = [field for field in required_fields if field not in data]
         if missing_fields:
             return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
+
         api_key = data['api_key']
         amount = data['amount']
+        if api_key not in logged_in_session:
+            return jsonify({"error": f"API key {api_key} not found."}), 401
+        user_data = logged_in_session[api_key]
 
-        # TODO make withdraw in database
+        if DataAccess.update_account_balance(account_id=user_data['AccountId'],
+                                             new_balance=user_data['Balance'] + amount):
+            user_data['Balance'] += amount
+            return jsonify({"message": "Deposit successful!"}), 201
+        else:
+            raise Exception("Failed to update account balance.")
+    except Exception as e:
+        print(e)
+        return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
-        return jsonify({"message": "withdraw successful!"}), 201
+
+@app.route('/payment/withdraw', methods=['POST', 'GET'])
+def withdraw():
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "Invalid input. No data provided."}), 400
+        required_fields = ['api_key', 'amount']
+
+        api_key = data['api_key']
+        amount = data['amount']
+        if api_key not in logged_in_session:
+            return jsonify({"error": f"API key {api_key} not found."}), 401
+        user_data = logged_in_session[api_key]
+        if user_data['Balance'] < amount:
+            return jsonify({"error": "Insufficient balance!"}), 400
+        if DataAccess.update_account_balance(account_id=user_data['AccountId'],
+                                             new_balance=user_data['Balance'] - amount):
+            user_data['Balance'] -= amount
+            return jsonify({"message": "Withdraw successful!"}), 201
+        else:
+            raise Exception("Failed to update account balance.")
     except Exception as e:
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
 
-@app.route('/user/cart/add_product', methods=['POST'])
-def add_cart():
+# TODO make function that create Invoice
+@app.route('/user/checkout_product', methods=['POST'])
+def checkout():
     try:
         data = request.get_json()
         if not data:
@@ -220,38 +280,22 @@ def add_cart():
         missing_fields = [field for field in required_fields if field not in data]
         if missing_fields:
             return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
-        # TODO add product to cart database
-
-    except Exception as e:
-        return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
-
-
-# TODO make function that create Invoice
-@app.route('/user/cart/checkout', methods=['POST'])
-def checkout():
-    try:
-        data = request.get_json()
-        if not data:
-            return jsonify({"error": "Invalid input. No data provided."}), 400
-        required_fields = ['api_key', 'cart_id']
-        missing_fields = [field for field in required_fields if field not in data]
-        if missing_fields:
-            return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
         api_key = data['api_key']
 
         if api_key not in logged_in_session:
             return jsonify({"error": f"API key {api_key} not found."}), 401
 
-        # TODO make invoice in the data base
-        # get it's data
-        # return it's data to the frontend
-
+        user_data = logged_in_session[api_key]
+        if DataAccess.buy_product(product_id=data['product_id'], account_id=user_data['AccountId']):
+            return jsonify({"message": "Product bought successfully!"}), 201
+        else:
+            return jsonify({"error": "Failed to buy product!"}), 401
     except Exception as e:
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
 
 @app.route('/admin/invoice', methods=['GET', 'POST'])
-def get_invoice():
+def get_all_invoice():
     try:
         data = request.get_json()
         if not data:
@@ -299,15 +343,14 @@ def delete_invoice(invoice_id):
         if missing_fields:
             return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
         api_key = data['api_key']
-        if logged_in_session[api_key]['account_type'] != 'USER':
-            return jsonify({"error": f"API key {api_key} not user."}), 401
+
         # TODO get invoice from database
     except Exception as e:
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
 
-@app.route('/user/invoice/', methods=['GET'])
-def get_user_invoice():
+@app.route('/user/products', methods=['GET', 'POST'])
+def get_user_products():
     try:
         data = request.get_json()
         if not data:
@@ -317,13 +360,16 @@ def get_user_invoice():
         if missing_fields:
             return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
         api_key = data['api_key']
-        if logged_in_session[api_key]['account_type'] != 'USER':
+        if logged_in_session[api_key]['AccountType'] != 'USER':
             return jsonify({"error": f"API key {api_key} not user."}), 401
         # TODO get all user invoice from database
+        tmp = DataAccess.fetch_user_products(logged_in_session[api_key]['AccountId'])
+        return jsonify(tmp), 200
     except Exception as e:
+        print(e)
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
 
-
 if __name__ == '__main__':
+    print("asdfghjkl")
     app.run(host='0.0.0.0', debug=True)
