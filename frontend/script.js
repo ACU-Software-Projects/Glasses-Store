@@ -154,7 +154,7 @@ async function loadProducts(productsData) {
             const productDiv = document.createElement('div');
             productDiv.classList.add('img-item');
             productDiv.innerHTML = `
-                <img src="${product.ImageSrc}" width="340px" height="190px">
+                <img src="${product.ImageSrc}" width="340px" height="190px" alt="Glasses" onerror="this.onerror=null;this.src='defaulte.jpg';">
                 <div class="img-overlay">
                     <h2>${product.Name}</h2>
                     <p>Price: $${product.price}</p>
