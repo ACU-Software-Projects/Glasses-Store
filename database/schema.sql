@@ -42,16 +42,6 @@ CREATE TABLE `account` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `account`
---
-
-LOCK TABLES `account` WRITE;
-/*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES (1,'mostafa','mostafa@gmail.com','12345678',7240,'USER'),(2,'yousef','yourself@gmail.com','123456778',0,'USER'),(3,'mostafamostafa','mostafa.motafa@gmail.com','12345678',19800,'ADMIN'),(4,'yourself','yourself@gmail.com','12345678',101919,'USER'),(5,'saifsaif','saifsaif@gmail.com','12345678',1300000,'ADMIN');
-/*!40000 ALTER TABLE `account` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `admin`
 --
 
@@ -69,16 +59,6 @@ CREATE TABLE `admin` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `admin`
---
-
-LOCK TABLES `admin` WRITE;
-/*!40000 ALTER TABLE `admin` DISABLE KEYS */;
-INSERT INTO `admin` VALUES (1,'product manger',1),(2,'product manger',3),(3,'product manger',5);
-/*!40000 ALTER TABLE `admin` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `cart`
 --
 
@@ -93,15 +73,6 @@ CREATE TABLE `cart` (
   CONSTRAINT `fk_Cart_User1` FOREIGN KEY (`User_idUser`) REFERENCES `user` (`idUser`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `cart`
---
-
-LOCK TABLES `cart` WRITE;
-/*!40000 ALTER TABLE `cart` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cart` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `cart_has_product`
@@ -122,15 +93,6 @@ CREATE TABLE `cart_has_product` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `cart_has_product`
---
-
-LOCK TABLES `cart_has_product` WRITE;
-/*!40000 ALTER TABLE `cart_has_product` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cart_has_product` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `invoice`
 --
 
@@ -143,15 +105,6 @@ CREATE TABLE `invoice` (
   PRIMARY KEY (`idInvoice`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `invoice`
---
-
-LOCK TABLES `invoice` WRITE;
-/*!40000 ALTER TABLE `invoice` DISABLE KEYS */;
-/*!40000 ALTER TABLE `invoice` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `invoice_has_product`
@@ -172,15 +125,6 @@ CREATE TABLE `invoice_has_product` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `invoice_has_product`
---
-
-LOCK TABLES `invoice_has_product` WRITE;
-/*!40000 ALTER TABLE `invoice_has_product` DISABLE KEYS */;
-/*!40000 ALTER TABLE `invoice_has_product` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `invoice_has_user`
 --
 
@@ -197,15 +141,6 @@ CREATE TABLE `invoice_has_user` (
   CONSTRAINT `fk_Invoice_has_User_User1` FOREIGN KEY (`User_idUser`) REFERENCES `user` (`idUser`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `invoice_has_user`
---
-
-LOCK TABLES `invoice_has_user` WRITE;
-/*!40000 ALTER TABLE `invoice_has_user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `invoice_has_user` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `product`
@@ -229,16 +164,6 @@ CREATE TABLE `product` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `product`
---
-
-LOCK TABLES `product` WRITE;
-/*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (10,'mmmmmmm12',1112,NULL,'good product',NULL,3,'saif.jpg'),(11,'mmmmmmm12',1112,NULL,'good product',NULL,3,'saif.jpg'),(12,'anti reflectoion',2222,NULL,'good product',NULL,3,'yourself.png'),(13,'youef bakr3',1111,NULL,'good product',NULL,3,'yousef.jpg'),(14,'mmmmmmm25',2525,NULL,'good product',NULL,3,'yousef.jpg');
-/*!40000 ALTER TABLE `product` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `user`
 --
 
@@ -256,16 +181,6 @@ CREATE TABLE `user` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user`
---
-
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,2),(2,4);
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `user_products`
 --
 
@@ -277,16 +192,6 @@ CREATE TABLE `user_products` (
   `IdProduct` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user_products`
---
-
-LOCK TABLES `user_products` WRITE;
-/*!40000 ALTER TABLE `user_products` DISABLE KEYS */;
-INSERT INTO `user_products` VALUES (4,13),(4,14),(4,12),(4,13),(4,11);
-/*!40000 ALTER TABLE `user_products` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Dumping routines for database 'mydb'
@@ -301,4 +206,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-07 15:58:39
+-- Dump completed on 2024-12-07 18:19:11

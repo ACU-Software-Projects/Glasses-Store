@@ -302,7 +302,6 @@ async function loadMyGlasses() {
         if (!response.ok) throw new Error(`POST failed: ${response.status}`);
 
         const productsData = await response.json();  // Parse the response as JSON
-        alert(JSON.stringify(productsData));
 
         const productsContainer = document.querySelector('.sec-3 .contener');
         productsContainer.innerHTML = ''; // Clear existing content
