@@ -1,10 +1,12 @@
 const apiUrl = 'http://127.0.0.1:5000';
 
 async function register() {
+    alert("register works")
     const usernameInput = document.getElementById("username").value
     const passwordInput = document.getElementById("password").value;
-    const emailInput = document.getElementById("email").value;
+    const emailInput = document.getElementById("emailSignup").value;
     const roleInput = document.querySelector('input[name="role"]:checked').value.toUpperCase();
+    alert(usernameInput + passwordInput + emailInput + roleInput)
     const newItem = {
         'username': usernameInput,
         'email': emailInput,
