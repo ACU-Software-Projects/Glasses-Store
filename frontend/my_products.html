@@ -3,33 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Product</title>
-    <link rel="stylesheet" href="css/add product.css">
+    <title>My Products</title>
+    <link rel="stylesheet" href="css/invoice.css">
+     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/all.css">
 </head>
 <body>
-<div class="container">
-    <h1>Add a New Product</h1>
-    <form id="add-product-form" onsubmit="window.location.href='index.html'; return false;">
-        <label for="product-name">Product Name:</label>
-        <input type="text" id="product-name" placeholder="Enter product name" required/>
 
-        <label for="product-price">Product Price ($):</label>
-        <input type="number" id="product-price" placeholder="Enter product price" required/>
+<div class="sec-3" id="products">
+    <h2>Products</h2>
+    <div class="line">
+    </div><!-- line -->
+    <div class="contener">
 
-        <label for="product-img">Product Image URL:</label>
-        <input type="text" id="product-img" placeholder="Enter product image URL" required/>
+        <!--          <div class="img-item">-->
+        <!--            <img id="prodect-1" width="340px" height="190px">-->
+        <!--            <div class="img-overlay">-->
+        <!--                <h2>For men</h2>-->
+        <!--                <p> pric:50&#36;</p>-->
+        <!--                <a href="#"><i class="fas fa-cart-arrow-down"></i></a>-->
+        <!--            </div>&lt;!&ndash; img-overlay &ndash;&gt;-->
+        <!--        </div>&lt;!&ndash;img-item&ndash;&gt;-->
 
-        <button type="submit" onclick="addProduct()">Add Product</button>
-    </form>
-
-    <h2>Current Products</h2>
-    <div id="products-container" class="product-list"></div>
-</div>
-
-<script src="script.js"></script>
-<script>
-    checkLogin()
-</script>
+    </div><!--contener-->
+</div><!-- sec-3 -->
 
 </body>
+<script src="script.js"></script>
+<script>
+    checkLogin();
+    loadMyGlasses()
+</script>
 </html>
