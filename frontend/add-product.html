@@ -5,11 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Product</title>
     <link rel="stylesheet" href="css/add product.css">
+    <script>
+        // Function to set a cookie
+        function setCookie(name, value, days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/`;
+        }
+
+        // Function to get a cookie value by name
+        function getCookie(name) {
+            const cookies = document.cookie.split('; ');
+            for (let cookie of cookies) {
+                const [key, value] = cookie.split('=');
+                if (key === name) {
+                    return decodeURIComponent(value);
+                }
+            }
+            return "";
+        }
+
+        // Function to save input data into cookies
+        function saveInputToCookie() {
+            const productName = document.getElementById("product-name").value;
+            const productPrice = document.getElementById("product-price").value;
+            const productImg = document.getElementById("product-img").value;
+
+            setCookie("productName", productName, 7);
+            setCookie("productPrice", productPrice, 7);
+            setCookie("productImg", productImg, 7);
+        }
+
+        // Function to load input data from cookies on page load
+        function loadInputFromCookie() {
+            const productName = getCookie("productName");
+            const productPrice = getCookie("productPrice");
+            const productImg = getCookie("productImg");
+
+            if (productName) {
+                document.getElementById("product-name").value = productName;
+            }
+            if (productPrice) {
+                document.getElementById("product-price").value = productPrice;
+            }
+            if (productImg) {
+                document.getElementById("product-img").value = productImg;
+            }
+        }
+
+        // Load data from cookies when the page loads
+        window.onload = loadInputFromCookie;
+    </script>
 </head>
 <body>
 <div class="container">
     <h1>Add a New Product</h1>
-    <form id="add-product-form" onsubmit="window.location.href='index.html'; return false;">
+    <form id="add-product-form" onsubmit="saveInputToCookie(); window.location.href='index.html'; return false;">
         <label for="product-name">Product Name:</label>
         <input type="text" id="product-name" placeholder="Enter product name" required/>
 
@@ -19,7 +70,7 @@
         <label for="product-img">Product Image URL:</label>
         <input type="text" id="product-img" placeholder="Enter product image URL" required/>
 
-        <button type="submit" onclick="addProduct()">Add Product</button>
+        <button type="submit">Add Product</button>
     </form>
 
     <h2>Current Products</h2>
@@ -27,9 +78,6 @@
 </div>
 
 <script src="script.js"></script>
-<script>
-    checkLogin()
-</script>
 
 </body>
 </html>

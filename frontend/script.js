@@ -112,7 +112,7 @@ function addProductToPage(product) {
 }
 
 
-async function onPageLoad() {
+async function  onPageLoad() {
     if (api_key === "") {
         //not logged in
     } else {
@@ -160,7 +160,8 @@ async function loadProducts() {
                     <h2>${product.Name}</h2>
                     <p>Price: $${product.price}</p>
                     <a href="#"><i class="fas fa-cart-arrow-down"></i></a>
-                    <button onclick="buyProduct(${product.idProduct})"></button>
+            <button style="background-color:cadetblue; color: white; border: none; padding: 10px 20px; text-align: center; text-decoration: none; font-size: 16px; border-radius: 5px; cursor: pointer; transition: background-color 0.3s ease;" 
+        onclick="buyProduct(${product.idProduct})">Buy Product</button>
                 </div>
             `;
             productsContainer.appendChild(productDiv);
