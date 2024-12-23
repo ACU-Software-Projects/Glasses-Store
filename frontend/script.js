@@ -25,7 +25,8 @@ let api_key = localStorage.getItem("api_key");
 
 
 async function login() {
-    const passwordInput = document.getElementById("password").value;
+    alert("login works" )
+    const passwordInput = document.getElementById("passwordLogin").value;
     const emailInput = document.getElementById("email").value;
     alert(emailInput + passwordInput)
     const newItem = {
