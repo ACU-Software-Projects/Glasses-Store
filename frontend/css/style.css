@@ -1,3 +1,4 @@
+/* General Reset */
 * {
     margin: 0;
     padding: 0;
@@ -14,13 +15,7 @@
     justify-content: center;
     align-items: center;
 }
-.log{
-    background-color: rgba(91, 114, 240, 0.534);
 
-
-
-
-}
 .children a {
     text-decoration: none;
     margin-right: 45px;
@@ -33,58 +28,52 @@
     align-items: center;
 }
 
+/* Section 1 */
 .sec-1 {
     width: 100%;
     height: 100vh;
     background-image: url(../img/image.png);
     background-size: cover;
+    display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
 }
-.sec-1 .content {
-    text-align: center;
-}
-
-
-
-.overlay {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    background-color: black;
-    top: 0;
-    left: 0;
-    opacity: 0.5;
-}
 
 .content {
-    padding-top: 300px;
-    padding-left: 300px;
     color: white;
     position: absolute;
+    text-align: center;
     font-size: larger;
 }
 
-.content h2 {
-    padding-left: 100px;
-}
-
+.content h2,
 .content h3 {
-    padding-left: 140px;
+    margin: 10px 0;
 }
 
-.content .but-1 {
-    margin-left: 200px;
+/* Buttons */
+button,
+.btn {
+    width: 150px;
+    height: 49px;
+    background-color: #5995fd;
+    border: none;
+    border-radius: 49px;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.5s;
+    margin: 10px 0;
 }
 
-button {
-    margin-left: 10px;
-    width: 200px;
-    height: 75px;
-    font-size: large;
+button:hover,
+.btn:hover {
+    background-color: #4d84e2;
 }
 
+/* Section 2 */
 .sec-2 {
     position: relative;
     width: 100%;
@@ -103,153 +92,30 @@ button {
     background-color: blue;
 }
 
-i {
-    padding: 10px;
-    font-size: x-large;
-    color: rgb(66, 66, 228);
-}
-
-.sale {
+/* Cards */
+.sale, .type, .price, .team-item {
     float: left;
-    width: 300px;
-    height: 200px;
-    border: solid;
-    margin-left: 50px;
+    width: 30%;
+    text-align: center;
+    padding: 30px 15px;
+    border: 1px solid rgb(168, 168, 168);
+    margin: 20px 1.5%;
     position: relative;
-}
-
-.parenent {
-    height: 200px;
-    width: 80%;
-    margin: auto;
-    margin-top: 170px;
-}
-
-.sale::after,
-.type::after,
-.price::after,
-.team-item::after {
-    content: " ";
-    position: absolute;
-    width: 0;
-    height: 0;
-    top: 0;
-    left: 0;
-    background-color: black;
-    opacity: 0;
-}
-
-.sale:hover::after,
-.type:hover::after,
-.price:hover::after,
-.team-item:hover::after {
-    width: 100%;
-    height: 100%;
-    opacity: 0.7;
     transition: 0.5s;
 }
 
-.sec-3,
-.sec-7 {
-    text-align: center;
-    width: 100%;
-    height: 100vh;
-}
-
-.sec-3 {
-    background-color: #6f98eb;
-}
-
-.contener,
-.contener-sec-6,
-.team-container {
-    width: 80%;
-    margin: auto;
-}
-
-.img-item {
-    float: left;
-    position: relative;
-    padding: 10px;
-    margin-left: 10px;
-}
-
-.img-overlay,
-.team-overlay {
+.sale:hover::after, .type:hover::after, .price:hover::after, .team-item:hover::after {
+    content: "";
     position: absolute;
-    height: 100%;
-    width: 100%;
     top: 0;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.7);
-    text-align: center;
-    padding-top: 70px;
-    color: white;
-    align-items: center;
-    visibility: hidden;
-}
-
-.img-item:hover .img-overlay,
-.team-item:hover .team-overlay {
-    visibility: visible;
-}
-
-.sec-4,
-.sec-9 {
-    text-align: center;
     width: 100%;
-    height: 100vh;
+    height: 100%;
+    background-color: black;
+    opacity: 0.7;
 }
 
-.contenr-sec-4 {
-    width: 80%;
-    height: 90%;
-    margin: auto;
-    margin-top: 50px;
-}
-
-.type {
-    float: left;
-    width: 300px;
-    height: 200px;
-    border: solid;
-    margin-left: 50px;
-    margin-top: 20px;
-    padding: 30px;
-    position: relative;
-}
-
-.choose {
-    float: left;
-    height: 300px;
-    width: 50%;
-}
-
-.sec-5 {
-    height: 100vh;
-    padding: 100px;
-    background-color: #3abef9;
-}
-
-li {
-    width: 10px;
-    height: 10px;
-    display: inline-block;
-    background-color: #a8a8a8;
-    margin: 10px 5px;
-    border-radius: 50%;
-}
-
-.active {
-    background-color: #6195ff;
-}
-
-.li-sec-5 {
-    width: 100%;
-    height: 600px;
-    margin-left: 900px;
-}
-
+/* Sections with Images */
 .sec-6,
 .sec-8 {
     position: relative;
@@ -257,10 +123,6 @@ li {
     background-size: cover;
     background-attachment: fixed;
     background-position: center;
-}
-
-.sec-6 {
-    background-image: url(../img/WhatsApp\ Image\ 2024-09-12\ at\ 22.24.08_1e4684b2.jpg);
 }
 
 .overlay-sec-6,
@@ -273,104 +135,14 @@ li {
     background-color: rgba(0, 0, 0, 0.7);
 }
 
-.sec-8 {
-    background-image: url(../img/WhatsApp\ Image\ 2024-09-11\ at\ 16.51.35_b40dc321.jpg);
-}
-
+/* Footer */
 .footer {
-    height: auto;
     padding: 20px;
     background-color: rgba(0, 0, 0, 0.7);
     text-align: center;
 }
 
-.footer .cont {
-    padding: 20px;
-}
-
-.price {
-    float: left;
-    width: 30%;
-    text-align: center;
-    padding: 30px 15px;
-    border: 1px solid rgb(168, 168, 168);
-    margin-top: 50px;
-    position: relative;
-}
-
-.price p {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    border: 1px solid;
-    padding: 10px;
-    margin: 10px 75px;
-    font-size: x-large;
-    text-align: center;
-}
-
-h3 {
-    margin-top: 10px;
-    font-weight: 100;
-}
-
-.team-parent {
-    overflow: auto;
-}
-
-.team-item {
-    float: left;
-    width: 30%;
-    background-color: rgb(177, 177, 177);
-    text-align: center;
-    padding: 18px 14px;
-    position: relative;
-}
-
-.team-img {
-    width: 85%;
-    margin: auto;
-    position: relative;
-}
-
-.team-img img {
-    width: 100%;
-}
-
-.team-overlay a {
-    display: block;
-    width: 40px;
-    height: 40px;
-    background-color: rgb(0, 183, 255);
-    color: #fff;
-    margin-left: auto;
-}
-
-.team-overlay a i {
-    line-height: 40px;
-}
-
-.team-info-title {
-    color: #222;
-    padding: 11px 0;
-    text-transform: capitalize;
-}
-
-.team-info-p {
-    color: grey;
-    text-transform: uppercase;
-    font-size: 14px;
-}
-
-.team-item:hover .team-info-title {
-    color: #fff;
-}
-
-.team-item:hover .team-info-p {
-    color: blue;
-}
-
-/* Mobile Responsive Styling */
+/* Responsive Styles */
 @media (max-width: 768px) {
     .nav {
         height: auto;
@@ -378,36 +150,15 @@ h3 {
         text-align: center;
     }
 
-    .nav img {
-        margin: 10px auto;
-        display: block;
-    }
-
     .children a {
-        float: none;
         display: inline-block;
         margin: 10px 5px;
     }
 
     .content {
-        padding-top: 200px;
-        padding-left: 20px;
-        text-align: center;
+        padding: 100px 20px;
         font-size: medium;
     }
-
-    .content h2,
-    .content h3 {
-        padding: 0;
-        margin-bottom: 10px;
-    }
-
-    .content .but-1 {
-        margin: auto;
-        text-align: center;
-    }
-
-
 
     .products-grid {
         display: grid;
@@ -416,40 +167,15 @@ h3 {
         padding: 20px;
     }
 
-    .sec-7 .price {
+    .price, .team-item {
         width: 100%;
-        margin-bottom: 20px;
-        float: none;
+        margin: 10px 0;
     }
 }
 
 @media (min-width: 768px) {
-    .sec-7 .price {
+    .price, .team-item {
         float: left;
         width: 30%;
     }
-
-    .team-item {
-        float: left;
-        width: 30%;
-    }
-}
-
-.btn {
-  width: 150px;
-  background-color: #5995fd;
-  border: none;
-  outline: none;
-  height: 49px;
-  border-radius: 49px;
-  color: #fff;
-  text-transform: uppercase;
-  font-weight: 600;
-  margin: 10px 0;
-  cursor: pointer;
-  transition: 0.5s;
-}
-
-.btn:hover {
-  background-color: #4d84e2;
 }
