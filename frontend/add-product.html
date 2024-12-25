@@ -60,7 +60,8 @@
 <body>
 <div class="container">
     <h1>Add a New Product</h1>
-    <form id="add-product-form" onsubmit="saveInputToCookie(); window.location.href='index.html'; return false;">
+    <form id="add-product-form"
+          onsubmit="addProduct();saveInputToCookie(); window.location.href='index.html'; return false;">
         <label for="product-name">Product Name:</label>
         <input type="text" id="product-name" placeholder="Enter product name" required/>
 
