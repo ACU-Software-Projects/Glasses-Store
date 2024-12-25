@@ -55,7 +55,7 @@
                     </form>
                 </div>
 
-                <input type="submit" class="btn" value="Sign up" onclick="ale()">
+                <input type="submit" class="btn" value="Sign up" onclick="signup()">
 
                 <div class="social-media">
                 </div>
@@ -94,7 +94,7 @@
 <script src="reg.js"></script>
 <script>
 
-    async function ale() {
+    async function signup() {
 
         alert("helppp")
         const apiUrl = 'http://127.0.0.1:5000';
@@ -119,7 +119,8 @@
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(newItem),
-            });
+            });//send request to the server and save response in variable
+
             if (!response.ok) throw new Error(`POST failed: ${response.status}`);
             const data = await response.json();
             alert(JSON.stringify(data, null, 2)); // Display JSON in a readable format

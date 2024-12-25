@@ -105,7 +105,7 @@ def register():
         # Validate required fields
         required_fields = ['email', 'password', 'username', 'account_type']
         missing_fields = [field for field in required_fields if field not in data]
-        if missing_fields:
+        if missing_fields: # check missing fields
             return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
 
         email = data['email']

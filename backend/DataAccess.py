@@ -15,13 +15,13 @@ def get_db_connection():
 def add_user_or_admin(name: str, email: str, password: str, account_type: str, balance=0, role: str = None) -> bool:
     try:
 
-        connection = get_db_connection()
+        connection = get_db_connection()  # create connection with database
         cursor = connection.cursor()
 
         account_query = "INSERT INTO Account (Name, Email, Password, Balance,AccountType) VALUES (%s, %s, %s, %s,%s)"
         account_values = (name, email, password, balance, account_type)
         cursor.execute(account_query, account_values)
-        account_id = cursor.lastrowid
+        account_id = cursor.lastrowid  # get the last inserted id
 
         if role is None:  # Add to User table
             user_query = "INSERT INTO User (Account_AccountId) VALUES (%s)"
@@ -30,7 +30,7 @@ def add_user_or_admin(name: str, email: str, password: str, account_type: str, b
             admin_query = "INSERT INTO Admin (Role, Account_AccountId) VALUES (%s, %s)"
             cursor.execute(admin_query, (role, account_id))
 
-        connection.commit()
+        connection.commit()  # apply changes to database
         return True
 
     except Exception as e:
@@ -98,6 +98,7 @@ def get_product_data(product_id):
         conn.close()
     return None
 
+
 def get_all_products():
     query = "SELECT * FROM Product"
     try:
@@ -113,6 +114,7 @@ def get_all_products():
         conn.close()
     return None
 
+
 def update_account_balance(account_id, new_balance):
     query = "UPDATE Account SET Balance = %s WHERE idAccount = %s"
     values = (new_balance, account_id)
@@ -125,7 +127,6 @@ def update_account_balance(account_id, new_balance):
     except Exception as e:
         print(e)
         return False
-
 
 
 def fetch_user_products(account_id: int) -> list:
