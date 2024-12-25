@@ -3,22 +3,21 @@ import string, random
 import flask_cors
 import DataAccess
 
-
 logged_in_session = {}
 
 
-def generate_key():
-    # Define the pool of characters: uppercase, lowercase, and digits
-    characters = string.ascii_letters + string.digits  # 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
-    # Randomly select 10 characters from the pool
+def generate_random_string():
+    # Generate a random string
+    characters = string.ascii_letters + string.digits
     api_key = ''.join(random.choices(characters, k=10))
     return api_key
 
 
 def generate_api_key():
-    tmp = generate_key()
+    # Generate a random unique api key
+    tmp = generate_random_string()
     while tmp in logged_in_session:
-        tmp = generate_key()
+        tmp = generate_random_string()
     return tmp
 
 
@@ -26,8 +25,8 @@ app = Flask(__name__)
 flask_cors.CORS(app)
 
 
-def update_api_key(api_key):
-    return DataAccess.get_user_data(logged_in_session[api_key]['AccountId'])
+# def update_api_key(api_key):
+#     return DataAccess.get_user_data(logged_in_session[api_key]['AccountId'])
 
 
 def validate_input(data, required_fields):
@@ -52,7 +51,10 @@ def get_user_data():
 
     validation_error = validate_input(data, ['api_key'])
     try:
-        tmp = DataAccess.get_user_data(logged_in_session[data['api_key']]['AccountId'])
+        account_id=logged_in_session[data['api_key']]['AccountId'] # get Account id from session
+
+        tmp = DataAccess.get_user_data(account_id) # get updated data from data access layer
+
         return jsonify(tmp), 200
     except Exception as e:
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
@@ -189,7 +191,6 @@ def get_product(product_id):
     return jsonify(productInfo), 200
 
 
-
 @app.route('/payment/deposit', methods=['POST', 'GET'])
 def deposit():
     try:
@@ -266,6 +267,7 @@ def checkout():
     except Exception as e:
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
 
+
 @app.route('/admin/invoice/<int:invoice_id>', methods=['GET'])
 def get_invoice(invoice_id):
     try:
@@ -282,6 +284,7 @@ def get_invoice(invoice_id):
         # TODO get invoice from database
     except Exception as e:
         return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
+
 
 @app.route('/user/products', methods=['GET', 'POST'])
 def get_user_products():

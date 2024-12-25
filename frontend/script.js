@@ -233,6 +233,7 @@ async function depositMoney() {
             body: JSON.stringify(newItem),
         });
         if (!response.ok) throw new Error(`POST failed: ${response.status}`);
+
         await checkLogin();
     } catch (error) {
         displayResponse({error: error.message});
