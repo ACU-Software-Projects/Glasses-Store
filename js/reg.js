@@ -1,4 +1,4 @@
-const apiUrl = 'https://20.46.49.0:5000';
+const apiUrl = 'http://20.46.49.0:5000';
 
 async function register() {
     alert("register works")
