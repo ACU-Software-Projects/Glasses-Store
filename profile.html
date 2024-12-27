@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <link rel="stylesheet" href="css/profile.css">
+
+    <!--    <link rel="stylesheet" href="styles.css">-->
+</head>
+<body>
+<div class="profile-container">
+    <div class="profile-card">
+        <div class="profile-img">
+            <img src="WhatsApp Image 2024-09-12 at 22.24.08_1e4684b2.jpg" alt="User Image"/>
+        </div>
+        <h1>User Profile</h1>
+        <div class="profile-info">
+            <p><strong>Name:</strong> <span id="profile-name">John Doe</span></p>
+            <p><strong>Email:</strong> <span id="profile-email">johndoe@gmail.com</span></p>
+            <p><strong>Mode:</strong> <span id="profile-mode">Admin</span></p>
+            <p><strong>Money:</strong> $<span id="profile-money">100.00</span></p>
+        </div>
+        <div class="profile-actions">
+            <input type="number" id="money-input" placeholder="Enter amount"/>
+            <div class="action-buttons">
+                <button type="button" onclick="depositMoney()">Deposit</button>
+                <button type="button" onclick="withdrawMoney()">Withdraw</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/script.js">
+</script>
+<script>
+    checkLogin();
+</script>
+</body>
+</html>

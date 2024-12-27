@@ -1,0 +1,84 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+}
+/* Container for Cards */
+.contener {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Automatically adjusts the number of columns */
+    gap: 20px; /* Space between items */
+    padding: 20px;
+    justify-content: center; /* Center the items in the grid */
+}
+
+/* Media Queries for responsiveness */
+@media (max-width: 768px) {
+    .contener {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Slightly smaller columns for tablets */
+        gap: 15px; /* Less gap between items on tablets */
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .contener {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Single-column layout on smaller screens */
+        gap: 10px;
+    }
+}
+
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+}
+
+.header {
+  text-align: center;
+  padding: 20px 0;
+  background-color: #0073e6;
+  color: white;
+}
+
+.content {
+  font-size: 16px;
+  text-align: center;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 768px) {
+  body {
+      font-size: 14px;
+  }
+
+  .container {
+      padding: 10px;
+  }
+
+  .header {
+      font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+      font-size: 12px;
+  }
+
+  .container {
+      padding: 5px;
+  }
+
+  .header {
+      font-size: 16px;
+  }
+
+  .content {
+      font-size: 14px;
+  }
+}
+
