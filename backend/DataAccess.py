@@ -6,8 +6,8 @@ from mysql.connector import connect
 def get_db_connection():
     return connect(
         host="localhost",
-        user="root",
-        password="1234",
+        user="mostafa",
+        password="12345678",
         database="mydb"
     )
 
@@ -18,16 +18,16 @@ def add_user_or_admin(name: str, email: str, password: str, account_type: str, b
         connection = get_db_connection()  # create connection with database
         cursor = connection.cursor()
 
-        account_query = "INSERT INTO Account (Name, Email, Password, Balance,AccountType) VALUES (%s, %s, %s, %s,%s)"
+        account_query = "INSERT INTO account (Name, Email, Password, Balance,AccountType) VALUES (%s, %s, %s, %s,%s)"
         account_values = (name, email, password, balance, account_type)
         cursor.execute(account_query, account_values)
         account_id = cursor.lastrowid  # get the last inserted id
 
         if role is None:  # Add to User table
-            user_query = "INSERT INTO User (Account_AccountId) VALUES (%s)"
+            user_query = "INSERT INTO user (Account_AccountId) VALUES (%s)"
             cursor.execute(user_query, (account_id,))
         else:  # Add to Admin table
-            admin_query = "INSERT INTO Admin (Role, Account_AccountId) VALUES (%s, %s)"
+            admin_query = "INSERT INTO admin (Role, Account_AccountId) VALUES (%s, %s)"
             cursor.execute(admin_query, (role, account_id))
 
         connection.commit()  # apply changes to database
@@ -44,7 +44,7 @@ def add_user_or_admin(name: str, email: str, password: str, account_type: str, b
 
 
 def login_user(email: str, password: str) -> dict:
-    query = "SELECT * FROM Account WHERE Email = %s AND Password = %s"
+    query = "SELECT * FROM account WHERE Email = %s AND Password = %s"
     values = (email, password)
 
     try:
@@ -63,7 +63,7 @@ def login_user(email: str, password: str) -> dict:
 
 def search_product(name: str = "", min_price: float = 0, max_price: float = 10000) -> list:
     query = """
-    SELECT * FROM Product
+    SELECT * FROM product
     WHERE name LIKE %s AND price BETWEEN %s AND %s
     """
     values = (f"%name%", min_price, max_price)
@@ -83,7 +83,7 @@ def search_product(name: str = "", min_price: float = 0, max_price: float = 1000
 
 
 def get_product_data(product_id):
-    query = "SELECT * FROM Product WHERE idProduct = %s"
+    query = "SELECT * FROM product WHERE idProduct = %s"
     values = (product_id,)
     try:
         conn = get_db_connection()
@@ -100,7 +100,7 @@ def get_product_data(product_id):
 
 
 def get_all_products():
-    query = "SELECT * FROM Product"
+    query = "SELECT * FROM product"
     try:
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
@@ -116,7 +116,7 @@ def get_all_products():
 
 
 def update_account_balance(account_id, new_balance):
-    query = "UPDATE Account SET Balance = %s WHERE idAccount = %s"
+    query = "UPDATE account SET Balance = %s WHERE idAccount = %s"
     values = (new_balance, account_id)
     try:
         conn = get_db_connection()
@@ -130,7 +130,7 @@ def update_account_balance(account_id, new_balance):
 
 
 def fetch_user_products(account_id: int) -> list:
-    query = """SELECT * FROM User_products where IdAccount = %s"""
+    query = """SELECT * FROM user_products where IdAccount = %s"""
 
     try:
         connection = get_db_connection()
@@ -147,7 +147,7 @@ def fetch_user_products(account_id: int) -> list:
 
 
 def add_product_with_admin_id(name: str, price: int, description: str, admin_id: int, image_src) -> bool:
-    query = "INSERT INTO Product (Name, price, description, Admin_idAdmin,ImageSrc) VALUES (%s, %s, %s, %s,%s)"
+    query = "INSERT INTO product (Name, price, description, Admin_idAdmin,ImageSrc) VALUES (%s, %s, %s, %s,%s)"
     values = (name, price, description, admin_id, image_src)
 
     try:
@@ -165,7 +165,7 @@ def add_product_with_admin_id(name: str, price: int, description: str, admin_id:
 
 
 def get_user_data(account_id):
-    query = "SELECT * FROM Account WHERE idAccount = %s"
+    query = "SELECT * FROM account WHERE idAccount = %s"
     values = (account_id,)
     try:
         connection = get_db_connection()
