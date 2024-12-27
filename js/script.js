@@ -20,7 +20,7 @@
     }
 }*/
 
-const apiUrl = 'http://20.46.49.0:5000';
+const apiUrl = 'https://20.46.49.0:5000';
 let api_key = localStorage.getItem("api_key");
 
 
